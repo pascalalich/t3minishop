@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-12-05T21:33:45Z" product-name="t3minishop">
+		<header/>
+		<body>
+
+			<trans-unit id="tx_t3minishop_domain_model_order">
+				<source>Order</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_order.positions">
+				<source>Positions</source>
+			</trans-unit>
+
+			<trans-unit id="tx_t3minishop_domain_model_orderposition">
+				<source>Order Position</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_orderposition.quantity">
+				<source>Quantity</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_orderposition.product">
+				<source>Product</source>
+			</trans-unit>
+
+			<trans-unit id="tx_t3minishop_domain_model_product">
+				<source>Product</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_product.title">
+				<source>Title</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>
