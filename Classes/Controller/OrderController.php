@@ -54,7 +54,8 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @return void
 	 */
 	public function showBasketAction() {
-
+		$order = $this->getOrderFromSession();
+		$this->view->assign('order', $order);
 	}
 
 	/**
@@ -81,6 +82,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		
 		$sessionOrder = $GLOBALS['TSFE']->fe_user->getKey('ses', 'TYPO3\\T3minishop\\Domain\\Model\\Order');
 		if (is_array($sessionOrder)) {
+			$this->logger->info ("serialized order from session", $sessionOrder);
 			$order->fromArray($sessionOrder);
 		}
 		return $order;
@@ -88,7 +90,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	
 	private function setOrderToSession($order) {
 		$sessionOrder = $order->toArray();
-		$this->logger->info ("serialized order", $sessionOrder);
+		$this->logger->info ("serialized order before storing in session", $sessionOrder);
 		$GLOBALS['TSFE']->fe_user->setKey('ses', 'TYPO3\\T3minishop\\Domain\\Model\\Order', $sessionOrder);
 	}
 }
