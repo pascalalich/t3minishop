@@ -34,6 +34,12 @@ namespace TYPO3\T3minishop\Controller;
  */
 class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
+	protected $logger;
+	
+	function __construct() {
+		$this->logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager')->getLogger(__CLASS__);
+	}
+	
 	/**
 	 * orderRepository
 	 *
@@ -53,12 +59,14 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 	/**
 	 * action addProduct
-	 *
+	 * 
+	 * @param \TYPO3\T3minishop\Domain\Model\Product $product
 	 * @return void
 	 */
-	public function addProductAction() {
-
+	public function addProductAction(\TYPO3\T3minishop\Domain\Model\Product $product) {
+		$this->logger->info ( "addProduct action", array (
+				'product' => $product->getTitle()
+		));
 	}
-
 }
 ?>
