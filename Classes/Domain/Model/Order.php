@@ -104,5 +104,61 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->positions = $positions;
 	}
 
+	/**
+	 * 
+	 * @param \TYPO3\T3minishop\Domain\Model\Product $product
+	 */
+	public function findOrCreatePositionForProduct(\TYPO3\T3minishop\Domain\Model\Product $product) {
+		$position = $this->findPositionForProduct($product);
+		
+		if ($position === NULL) {
+			$position = new OrderPosition();
+			$position->setProduct($product);
+			$this->positions->attach($position);
+		}
+		
+		return $position;
+	}
+	
+	/**
+	 *
+	 * @param \TYPO3\T3minishop\Domain\Model\Product $product
+	 */
+	private function findPositionForProduct(\TYPO3\T3minishop\Domain\Model\Product $product) {
+		// assuming the title is unique
+		$foundPosition = NULL;
+		
+		$this->positions->rewind();
+		while ($this->positions->valid()) {
+			$position = $this->positions->current();
+			if ($position->getProduct()->getTitle() === $product->getTitle()) {
+				$foundPosition = $position;
+				break;
+			}
+			$this->positions->next();
+		}
+		
+		return $foundPosition;
+	}
+	
+	public function toArray() {
+		$a = array();
+		$a['positions'] = $this->getPositionsAsArray();
+		return $a;
+	}
+	
+	private function getPositionsAsArray() {
+		$a = array();
+		$this->positions->rewind();
+		while ($this->positions->valid()) {
+			$position = $this->positions->current();
+			
+			$product = $position->getProduct();
+			$a[$product->getTitle()] = $product->toArray();
+			
+			$this->positions->next();
+		}
+		return $a;
+	}
 }
 ?>

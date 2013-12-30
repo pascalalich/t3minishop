@@ -67,6 +67,29 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$this->logger->info ( "addProduct action", array (
 				'product' => $product->getTitle()
 		));
+		
+		$order = $this->getOrderFromSession();
+		
+		$orderPos = $order->findOrCreatePositionForProduct($product);
+		$orderPos->incrementQuantity();
+		
+		$this->setOrderToSession($order);
+	}
+	
+	private function getOrderFromSession() {
+		$order = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Order');
+		
+		$sessionOrder = $GLOBALS['TSFE']->fe_user->getKey('ses', 'TYPO3\\T3minishop\\Domain\\Model\\Order');
+		if (is_array($sessionOrder)) {
+			$order->fromArray($sessionOrder);
+		}
+		return $order;
+	}
+	
+	private function setOrderToSession($order) {
+		$sessionOrder = $order->toArray();
+		$this->logger->info ("serialized order", $sessionOrder);
+		$GLOBALS['TSFE']->fe_user->setKey('ses', 'TYPO3\\T3minishop\\Domain\\Model\\Order', $sessionOrder);
 	}
 }
 ?>

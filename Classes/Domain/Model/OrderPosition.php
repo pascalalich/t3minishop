@@ -87,5 +87,16 @@ class OrderPosition extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->product = $product;
 	}
 
+	/**
+	 * Increments the quantity by 1.
+	 */
+	public function incrementQuantity() {
+		if (isset($this->quantity)) {
+			$this->quantity++;
+		} else {
+			$this->quantity = 1;
+		}
+	}
+	
 }
 ?>
