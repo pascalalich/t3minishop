@@ -52,11 +52,11 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	}
 
 	/**
-	 * action
+	 * action addProduct
 	 *
 	 * @return void
 	 */
-	public function Action() {
+	public function addProductAction() {
 
 	}
 

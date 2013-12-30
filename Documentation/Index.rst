@@ -18,7 +18,7 @@ Extension Name
 :Language: en
 :Author: Pascal Alich
 :Creation: 2013-12-30
-:Generation: 11:33
+:Generation: 12:31
 :Licence: Open Content License available from `www.opencontent.org/opl.shtml <http://www.opencontent.org/opl.shtml>`_
 
 The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from `www.typo3.org
