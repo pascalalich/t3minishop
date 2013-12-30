@@ -1,0 +1,38 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+<div class="order-basket">
+
+<table> 
+	<tr> 
+		<th>Produkt</th>
+		<th>Preis</th>
+		<th>Anzahl</th>
+		<th>Gesamt</th>
+	</tr>
+	<f:for each="{order.positions}" as="position">
+	<tr>
+		<td class="product-title">
+			{position.product.title}
+		</td>
+		<td class="product-price">
+			<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{position.product.price}</f:format.number>&nbsp;&euro;
+		</td>
+		<td class="position-quantity">
+			{position.quantity}
+		</td>
+		<td class="position-price">
+			<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{position.price}</f:format.number>&nbsp;&euro;
+		</td>
+	</tr>		
+	</f:for>
+	<tr class="position-summary">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td class="total-price"><f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro; zzgl. Versand</td>
+	</tr>
+</table>
+
+</div>
+</f:section>
