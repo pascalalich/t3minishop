@@ -17,8 +17,8 @@ Extension Name
 :Description: manuals covering TYPO3 extension "Minishop"
 :Language: en
 :Author: Pascal Alich
-:Creation: 2013-12-05
-:Generation: 21:33
+:Creation: 2013-12-30
+:Generation: 11:33
 :Licence: Open Content License available from `www.opencontent.org/opl.shtml <http://www.opencontent.org/opl.shtml>`_
 
 The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from `www.typo3.org

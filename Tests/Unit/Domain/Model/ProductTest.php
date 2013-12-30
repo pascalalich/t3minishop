@@ -68,5 +68,27 @@ class ProductTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 		);
 	}
 	
+	/**
+	 * @test
+	 */
+	public function getPriceReturnsInitialValueForFloat() { 
+		$this->assertSame(
+			0.0,
+			$this->fixture->getPrice()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPriceForFloatSetsPrice() { 
+		$this->fixture->setPrice(3.14159265);
+
+		$this->assertSame(
+			3.14159265,
+			$this->fixture->getPrice()
+		);
+	}
+	
 }
 ?>

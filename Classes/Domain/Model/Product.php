@@ -43,6 +43,14 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $title;
 
 	/**
+	 * price
+	 *
+	 * @var \float
+	 * @validate NotEmpty
+	 */
+	protected $price;
+
+	/**
 	 * Returns the title
 	 *
 	 * @return \string $title
@@ -59,6 +67,25 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
+	}
+
+	/**
+	 * Returns the price
+	 *
+	 * @return \float $price
+	 */
+	public function getPrice() {
+		return $this->price;
+	}
+
+	/**
+	 * Sets the price
+	 *
+	 * @param \float $price
+	 * @return void
+	 */
+	public function setPrice($price) {
+		$this->price = $price;
 	}
 
 }

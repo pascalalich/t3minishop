@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2013-12-05T21:33:45Z" product-name="t3minishop">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-12-30T11:32:57Z" product-name="t3minishop">
 		<header/>
 		<body>
 
 			<trans-unit id="title.description">
 				<source>title</source>
+			</trans-unit>
+			<trans-unit id="price.description">
+				<source>price</source>
 			</trans-unit>
 		</body>
 	</file>
