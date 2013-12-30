@@ -88,6 +88,15 @@ class OrderPosition extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the total price.
+	 *
+	 * @return float price
+	 */
+	public function getPrice() {
+		return $this->quantity * $this->product->getPrice();
+	}
+	
+	/**
 	 * Increments the quantity by 1.
 	 */
 	public function incrementQuantity() {
@@ -98,5 +107,18 @@ class OrderPosition extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		}
 	}
 	
+	public function toArray() {
+		$a = array();
+		$a['quantity'] = $this->getQuantity();
+		$a['product'] = $this->getProduct()->toArray();
+		return $a;
+	}
+	
+	public function fromArray($positionArr) {
+		$this->setQuantity($positionArr['quantity']);
+		$product = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Product');
+		$product->fromArray($positionArr['product']);
+		$this->setProduct($product);
+	}
 }
 ?>

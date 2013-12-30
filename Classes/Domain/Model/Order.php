@@ -103,6 +103,21 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setPositions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $positions) {
 		$this->positions = $positions;
 	}
+	
+	/**
+	 * Calculates and returns the total price.
+	 * @return float total price
+	 */
+	public function getTotal() {
+		$total = 0.0;
+		$this->positions->rewind();
+		while ($this->positions->valid()) {
+			$position = $this->positions->current();
+			$total += $position->getPrice();
+			$this->positions->next();
+		}
+		return $total;
+	}
 
 	/**
 	 * 
@@ -112,9 +127,9 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$position = $this->findPositionForProduct($product);
 		
 		if ($position === NULL) {
-			$position = new OrderPosition();
+			$position = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\OrderPosition');
 			$position->setProduct($product);
-			$this->positions->attach($position);
+			$this->addPosition($position);
 		}
 		
 		return $position;
@@ -153,12 +168,21 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		while ($this->positions->valid()) {
 			$position = $this->positions->current();
 			
-			$product = $position->getProduct();
-			$a[$product->getTitle()] = $product->toArray();
+			$a[$position->getProduct()->getTitle()] = $position->toArray();
 			
 			$this->positions->next();
 		}
 		return $a;
+	}
+	
+	public function fromArray($orderArr) {
+		$positionsArr = $orderArr['positions'];
+		
+		foreach ($positionsArr as $productTitle => $positionArr) {
+			$position = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\OrderPosition');
+			$position->fromArray($positionArr);
+			$this->addPosition($position);
+		}
 	}
 }
 ?>

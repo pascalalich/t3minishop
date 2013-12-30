@@ -94,5 +94,10 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$a['price'] = $this->getPrice();
 		return $a;
 	}
+	
+	public function fromArray($productArr) {
+		$this->setTitle($productArr['title']);
+		$this->setPrice($productArr['price']);
+	}
 }
 ?>
