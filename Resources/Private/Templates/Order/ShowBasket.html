@@ -11,6 +11,7 @@
 				<th>Preis</th>
 				<th>Anzahl</th>
 				<th>Gesamt</th>
+				<th>&nbsp;</th>
 			</tr>
 			<f:for each="{order.positions}" as="position">
 			<tr>
@@ -25,6 +26,9 @@
 				</td>
 				<td class="position-price">
 					<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{position.price}</f:format.number>&nbsp;&euro;
+				</td>
+				<td>
+					<f:link.action controller="Order" action="removePosition" arguments="{id : position.product.title}"><f:image src="typo3conf/ext/t3minishop/Resources/Public/Icons/delete.png" width="16" alt="Löschen" class="delete-image" /></f:link.action>
 				</td>
 			</tr>		
 			</f:for>

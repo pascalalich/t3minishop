@@ -77,6 +77,23 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$this->setOrderToSession($order);
 	}
 	
+	/**
+	 * Remove a position from the basket
+	 * 
+	 * @param string $id
+	 */
+	public function removePositionAction(string $id) {
+		$order = $this->getOrderFromSession();
+		
+		$product = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Product');
+		$product->setTitle($id);
+		
+		$position = $order->findPositionForProduct($product);
+		$order->removePosition($position);
+		
+		$this->setOrderToSession($order);
+	}
+	
 	private function getOrderFromSession() {
 		$order = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Order');
 		
