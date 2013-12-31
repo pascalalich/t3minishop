@@ -35,6 +35,13 @@ namespace TYPO3\T3minishop\Domain\Model;
 class OrderPosition extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
+	 * internal id
+	 * 
+	 * @var \integer
+	 */
+	protected $id;
+	
+	/**
 	 * quantity
 	 *
 	 * @var \integer
@@ -49,6 +56,21 @@ class OrderPosition extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $product;
 
+	/**
+	 * @return \integer $id
+	 */
+	public function getId() {
+		return $this->id;
+	}
+	
+	/**
+	 * @param \integer $id
+	 * @return void
+	 */
+	public function setId($id) {
+		$this->id = $id;
+	}
+	
 	/**
 	 * Returns the quantity
 	 *
@@ -109,12 +131,14 @@ class OrderPosition extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	
 	public function toArray() {
 		$a = array();
+		$a['id'] = $this->getId();
 		$a['quantity'] = $this->getQuantity();
 		$a['product'] = $this->getProduct()->toArray();
 		return $a;
 	}
 	
 	public function fromArray($positionArr) {
+		$this->setId($positionArr['id']);
 		$this->setQuantity($positionArr['quantity']);
 		$product = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Product');
 		$product->fromArray($positionArr['product']);

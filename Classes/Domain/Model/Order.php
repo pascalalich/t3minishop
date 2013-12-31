@@ -119,6 +119,15 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $total;
 	}
 
+	private function getNextPositionId() {
+		$positionsArray = $this->positions->toArray();
+		if (count($positionsArray) === 0) {
+			return 1;
+		} else {
+			return end($positionsArray)->getId() + 1;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param \TYPO3\T3minishop\Domain\Model\Product $product
@@ -128,6 +137,7 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		
 		if ($position === NULL) {
 			$position = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\OrderPosition');
+			$position->setId($this->getNextPositionId());
 			$position->setProduct($product);
 			$this->addPosition($position);
 		}
@@ -139,7 +149,7 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @param \TYPO3\T3minishop\Domain\Model\Product $product
 	 */
-	private function findPositionForProduct(\TYPO3\T3minishop\Domain\Model\Product $product) {
+	public function findPositionForProduct(\TYPO3\T3minishop\Domain\Model\Product $product) {
 		// assuming the title is unique
 		$foundPosition = NULL;
 		
@@ -147,6 +157,26 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		while ($this->positions->valid()) {
 			$position = $this->positions->current();
 			if ($position->getProduct()->getTitle() === $product->getTitle()) {
+				$foundPosition = $position;
+				break;
+			}
+			$this->positions->next();
+		}
+		
+		return $foundPosition;
+	}
+	
+	/**
+	 * 
+	 * @param \integer $id
+	 */
+	public function findPositionById($id) {
+		$foundPosition = NULL;
+		
+		$this->positions->rewind();
+		while ($this->positions->valid()) {
+			$position = $this->positions->current();
+			if ($position->getId() == $id) {
 				$foundPosition = $position;
 				break;
 			}

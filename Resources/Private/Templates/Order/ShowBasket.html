@@ -28,7 +28,7 @@
 					<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{position.price}</f:format.number>&nbsp;&euro;
 				</td>
 				<td>
-					<f:link.action controller="Order" action="removePosition" arguments="{id : position.product.title}"><f:image src="typo3conf/ext/t3minishop/Resources/Public/Icons/delete.png" width="16" alt="Löschen" class="delete-image" /></f:link.action>
+					<f:link.action controller="Order" action="removePosition" arguments="{id : position.id}" noCache="1"><f:image src="typo3conf/ext/t3minishop/Resources/Public/Icons/delete16.png" alt="Loeschen" class="delete-image" /></f:link.action>
 				</td>
 			</tr>		
 			</f:for>
