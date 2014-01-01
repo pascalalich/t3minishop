@@ -7,12 +7,12 @@ if (!defined('TYPO3_MODE')) {
 	'TYPO3.' . $_EXTKEY,
 	'Minishop',
 	array(
-		'Order' => 'showBasket, removePosition, updateBasket, checkout',
+		'Order' => 'showBasket, removePosition, updateBasket, checkout, submitOrder',
 		
 	),
 	// non-cacheable actions
 	array(
-		'Order' => 'showBasket, removePosition, updateBasket, checkout',
+		'Order' => 'showBasket, removePosition, updateBasket, checkout, submitOrder',
 		
 	)
 );

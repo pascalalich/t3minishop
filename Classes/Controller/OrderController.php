@@ -138,6 +138,109 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$this->view->assign('order', $order);
 	}
 	
+	/**
+	 * Submit order
+	 * 
+	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 */
+	public function submitOrderAction(\TYPO3\T3minishop\Domain\Model\Order $order) {
+		
+		if ($this->request->hasArgument('showBasket')) {
+			$this->forward('showBasket');
+		}
+		
+		// restore positions
+		$sessionOrder = $this->getOrderFromSession();
+		$order->setPositions($sessionOrder->getPositions());
+		
+		$this->sendNotifications($order);
+		$this->forward('showBasket');
+	}
+	
+	/**
+	 * Sends notifiations to admin and customer of new order.
+	 *
+	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 */
+	private function sendNotifications(\TYPO3\T3minishop\Domain\Model\Order $order) {
+		$this->sendCustomerMail($order);
+		$this->sendAdminMail($order);
+	}
+	
+	/**
+	 * Sends notification to admin.
+	 *
+	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 */
+	private function sendAdminMail(\TYPO3\T3minishop\Domain\Model\Order $order) {
+		$email['subject']   = 'Neue Bestellung';
+		$template = 'adminOrderMail.txt';
+		$email['toEmail']   = 'pascal@alichs.de';//$this->settings['emailTo'];
+		$email['fromName']  = $order->getBuyer()->getName();
+		$email['fromEmail'] = $order->getBuyer()->getEmail();
+		$email['body'] = $this->getMailBody($order, $template);
+		if ($this->settings['emailBcc']) {
+			$email['bcc'] = $this->settings['emailBcc'];
+		}
+		$this->sendMail($email);
+	}
+	
+	/**
+	 * Sends notification to customer.
+	 *
+	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 */
+	private function sendCustomerMail(\TYPO3\T3minishop\Domain\Model\Order $order) {
+		$email['subject']   = 'Ihre Bestellung';
+		$template = 'customerOrderMail.txt';
+		$email['toName']   = $order->getBuyer()->getName();
+		$email['toEmail']   = $order->getBuyer()->getEmail();
+		$email['fromName']  = 'Thomas Steinlein Shop';
+		$email['fromEmail'] = 'info@thomassteinlein.de';//$this->settings['emailFrom'];
+		$email['body'] = $this->getMailBody($order, $template);
+		if ($this->settings['emailBcc']) {
+			$email['bcc'] = $this->settings['emailBcc'];
+		}
+		$this->sendMail($email);
+	}
+	
+	/**
+	 * Sends a plain text mail.
+	 *
+	 * @param array $email the mail data
+	 */
+	private function sendMail($email) {
+		//if ($this->settings['email']) {
+			$mail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
+			$mail->setFrom(array($email['fromEmail'] => $email['fromName']));
+			$mail->setTo(array($email['toEmail'] => $email['toName']));
+			if ($email['bcc']) {
+				$mail->setBcc(array($email['bcc']));
+			}
+			$mail->setSubject($email['subject']);
+			$mail->setBody($email['body']);
+			$mail->send();
+		//}
+		$this->logger->info("order email sent", array (
+				'email' => $email
+		));
+	}
+	
+	/**
+	 * Renders the body of the notification mail to the customer.
+	 *
+	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 * @param string $templateFileName name of the template
+	 * @return string the mail body
+	 */
+	private function getMailBody(\TYPO3\T3minishop\Domain\Model\Order $order, $templateFileName) {
+		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Fluid_View_StandaloneView');
+		$templateFilePath = 'typo3conf/ext/t3minishop/Resources/Private/Templates/Order/'.$templateFileName;
+		$view->setTemplatePathAndFilename($templateFilePath);
+		$view->assign('order', $order);
+		return $view->render();
+	}
+	
 	private function getOrderFromSession() {
 		$order = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Order');
 		

@@ -6,7 +6,7 @@
 
 	<f:render partial="formErrors" arguments="{for: 'order'}" />
 	
-	<f:form method="post" controller="Order" action="create" name="order" object="{order}">
+	<f:form method="post" controller="Order" action="submitOrder" name="order" object="{order}">
 		<fieldset>
 			<legend>Persönliche Daten</legend>
 			<ol>

@@ -1,0 +1,23 @@
+﻿Hallo Frau/Herr {order.buyer.name},
+wir danken Ihnen für Ihre Bestellung und bitten um Vorkasse:
+
+Verwaiste Eltern und Geschwister Hamburg e.V.
+Ev. Darlehnsgenossenschaft eG
+BLZ: 210 602 37
+Konto-Nr: 346454
+
+WICHTIG! Bitte geben Sie bei der Überweisung eine Telefonnummer oder Ihre E-Mail-Adresse für Rückfragen an.
+
+Produkte:
+<f:for each="{order.positions}" as="position">- {position.quantity}x {position.product.title}
+</f:for>
+Artikel:       <f:format.currency currencySign="€">{order.total}</f:format.currency>
+Versand:       <f:format.currency currencySign="€">???</f:format.currency>
+Gesamtbetrag:  <f:format.currency currencySign="€">{order.total}</f:format.currency>
+
+Ihre Nachricht:
+{order.comment}
+
+Für Fragen stehen wir Ihnen gern zur Verfügung!
+
+Thomas Steinlein + Team
