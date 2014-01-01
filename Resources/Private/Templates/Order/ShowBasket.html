@@ -5,40 +5,44 @@
 <h1>Warenkorb</h1>
 <f:if condition="{order.positions}">
 	<f:then>
-		<table> 
-			<tr> 
-				<th>Produkt</th>
-				<th>Preis</th>
-				<th>Anzahl</th>
-				<th>Gesamt</th>
-				<th>&nbsp;</th>
-			</tr>
-			<f:for each="{order.positions}" as="position">
-			<tr>
-				<td class="product-title">
-					{position.product.title}
-				</td>
-				<td class="product-price">
-					<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{position.product.price}</f:format.number>&nbsp;&euro;
-				</td>
-				<td class="position-quantity">
-					{position.quantity}
-				</td>
-				<td class="position-price">
-					<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{position.price}</f:format.number>&nbsp;&euro;
-				</td>
-				<td>
-					<f:link.action controller="Order" action="removePosition" arguments="{id : position.id}" noCache="1"><f:image src="typo3conf/ext/t3minishop/Resources/Public/Icons/delete16.png" alt="Loeschen" class="delete-image" /></f:link.action>
-				</td>
-			</tr>		
-			</f:for>
-			<tr class="position-summary">
-				<td></td>
-				<td></td>
-				<td></td>
-				<td class="total-price"><f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro; zzgl. Versand</td>
-			</tr>
-		</table>
+		<f:form method="post" controller="Order" action="updateBasket" name="basket" object="{order}">
+			<table> 
+				<tr> 
+					<th>Produkt</th>
+					<th>Preis</th>
+					<th>Anzahl</th>
+					<th>Gesamt</th>
+					<th>&nbsp;</th>
+				</tr>
+				<f:for each="{order.positions}" as="position">
+				<tr>
+					<td class="product-title">
+						{position.product.title}
+					</td>
+					<td class="product-price">
+						<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{position.product.price}</f:format.number>&nbsp;&euro;
+					</td>
+					<td class="position-quantity">
+						<f:form.textfield name="positions[{position.id}][quantity]" value="{position.quantity}" size="3" maxlength="3" />
+					</td>
+					<td class="position-price">
+						<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{position.price}</f:format.number>&nbsp;&euro;
+					</td>
+					<td>
+						<f:link.action controller="Order" action="removePosition" arguments="{id : position.id}"><f:image src="typo3conf/ext/t3minishop/Resources/Public/Icons/delete16.png" alt="Loeschen" class="delete-image" /></f:link.action>
+					</td>
+				</tr>		
+				</f:for>
+				<tr class="position-summary">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="total-price"><f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro; zzgl. Versand</td>
+				</tr>
+			</table>
+			<f:form.submit name="updateBasket" value="Aktualisieren" />
+			<f:form.submit name="checkout" value="Zur Bestellung" />
+		</f:form>
 	</f:then>
 	<f:else>
 		<p>Keine Produkte im Warenkorb</p>

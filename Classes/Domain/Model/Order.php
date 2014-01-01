@@ -214,5 +214,24 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			$this->addPosition($position);
 		}
 	}
+	
+	public function updateQuantities($quantities) {
+		foreach ($quantities as $positionId => $positionArr) {
+			$quantity = $positionArr['quantity'];
+			if (is_numeric($quantity)) {
+				$quantity = intval($quantity);
+				if ($quantity >= 0 ) {
+					$position = $this->findPositionById($positionId);
+					if ($position != NULL) {
+						if ($quantity === 0) {
+							$this->removePosition($position);
+						}  else {
+							$position->setQuantity($quantity);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 ?>

@@ -15,7 +15,7 @@
 								<items>
 									<numIndex index="0">
 										<numIndex index="0">Minishop basket</numIndex>
-										<numIndex index="1">Order->showBasket;Order->removePosition</numIndex>
+										<numIndex index="1">Order->showBasket;Order->updateBasket;Order->removePosition</numIndex>
 									</numIndex>
 								</items>
 							</config>

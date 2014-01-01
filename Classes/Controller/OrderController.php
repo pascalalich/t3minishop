@@ -57,6 +57,32 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$order = $this->getOrderFromSession();
 		$this->view->assign('order', $order);
 	}
+	
+	/**
+	 * 
+	 */
+	public function updateBasketAction() {
+		$order = $this->getOrderFromSession();
+
+		$this->logger->info("updating basket", array (
+				'request args' => $this->request->getArguments()
+		));
+		if ($this->request->hasArgument('positions')) {
+			$positions = $this->request->getArgument('positions');
+			$this->logger->info("updating quantities", array (
+					'positions' => $positions
+			));
+			
+			$order->updateQuantities($positions);
+			$this->setOrderToSession($order);
+		}
+		
+// 		if ($this->request->hasArgument('editAction')) {
+// 			$this->forward('edit');
+// 		}
+		
+		$this->forward('showBasket', NULL, NULL, NULL);
+	}
 
 	/**
 	 * action addProduct
@@ -65,7 +91,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @return void
 	 */
 	public function addProductAction(\TYPO3\T3minishop\Domain\Model\Product $product) {
-		$this->logger->info ( "addProduct action", array (
+		$this->logger->info("addProduct action", array (
 				'product' => $product->getTitle()
 		));
 		
