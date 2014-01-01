@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-01-01T16:52:37Z" product-name="t3minishop">
+		<header/>
+		<body>
+
+			<trans-unit id="name.description">
+				<source>name</source>
+			</trans-unit>
+			<trans-unit id="address.description">
+				<source>address</source>
+			</trans-unit>
+			<trans-unit id="city.description">
+				<source>city</source>
+			</trans-unit>
+			<trans-unit id="email.description">
+				<source>email</source>
+			</trans-unit>
+			<trans-unit id="telephone.description">
+				<source>telephone</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

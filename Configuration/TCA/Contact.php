@@ -3,13 +3,13 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$TCA['tx_t3minishop_domain_model_order'] = array(
-	'ctrl' => $TCA['tx_t3minishop_domain_model_order']['ctrl'],
+$TCA['tx_t3minishop_domain_model_contact'] = array(
+	'ctrl' => $TCA['tx_t3minishop_domain_model_contact']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, comment, positions, buyer',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, address, city, email, telephone',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, comment, positions, buyer,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, address, city, email, telephone,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -37,8 +37,8 @@ $TCA['tx_t3minishop_domain_model_order'] = array(
 				'items' => array(
 					array('', 0),
 				),
-				'foreign_table' => 'tx_t3minishop_domain_model_order',
-				'foreign_table_where' => 'AND tx_t3minishop_domain_model_order.pid=###CURRENT_PID### AND tx_t3minishop_domain_model_order.sys_language_uid IN (-1,0)',
+				'foreign_table' => 'tx_t3minishop_domain_model_contact',
+				'foreign_table_where' => 'AND tx_t3minishop_domain_model_contact.pid=###CURRENT_PID### AND tx_t3minishop_domain_model_contact.sys_language_uid IN (-1,0)',
 			),
 		),
 		'l10n_diffsource' => array(
@@ -93,9 +93,18 @@ $TCA['tx_t3minishop_domain_model_order'] = array(
 				),
 			),
 		),
-		'comment' => array(
+		'name' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_order.comment',
+			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_contact.name',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'
+			),
+		),
+		'address' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_contact.address',
 			'config' => array(
 				'type' => 'text',
 				'cols' => 40,
@@ -103,38 +112,31 @@ $TCA['tx_t3minishop_domain_model_order'] = array(
 				'eval' => 'trim'
 			),
 		),
-		'positions' => array(
+		'city' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_order.positions',
+			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_contact.city',
 			'config' => array(
-				'type' => 'inline',
-				'foreign_table' => 'tx_t3minishop_domain_model_orderposition',
-				'foreign_field' => 'order',
-				'maxitems'      => 9999,
-				'appearance' => array(
-					'collapseAll' => 0,
-					'levelLinksPosition' => 'top',
-					'showSynchronizationLink' => 1,
-					'showPossibleLocalizationRecords' => 1,
-					'showAllLocalizationLink' => 1
-				),
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
 			),
 		),
-		'buyer' => array(
+		'email' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_order.buyer',
+			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_contact.email',
 			'config' => array(
-				'type' => 'inline',
-				'foreign_table' => 'tx_t3minishop_domain_model_contact',
-				'minitems' => 0,
-				'maxitems' => 1,
-				'appearance' => array(
-					'collapseAll' => 0,
-					'levelLinksPosition' => 'top',
-					'showSynchronizationLink' => 1,
-					'showPossibleLocalizationRecords' => 1,
-					'showAllLocalizationLink' => 1
-				),
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'
+			),
+		),
+		'telephone' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_contact.telephone',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
 			),
 		),
 	),

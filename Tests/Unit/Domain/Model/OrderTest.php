@@ -4,7 +4,7 @@ namespace TYPO3\T3minishop\Tests;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Pascal Alich <pascal@alichs.de>
+ *  (c) 2014 Pascal Alich <pascal@alichs.de>
  *  			
  *  All rights reserved
  *
@@ -51,6 +51,23 @@ class OrderTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 		unset($this->fixture);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getCommentReturnsInitialValueForString() { }
+
+	/**
+	 * @test
+	 */
+	public function setCommentForStringSetsComment() { 
+		$this->fixture->setComment('Conceived at T3CON10');
+
+		$this->assertSame(
+			'Conceived at T3CON10',
+			$this->fixture->getComment()
+		);
+	}
+	
 	/**
 	 * @test
 	 */
@@ -108,6 +125,16 @@ class OrderTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 			$this->fixture->getPositions()
 		);
 	}
+	
+	/**
+	 * @test
+	 */
+	public function getBuyerReturnsInitialValueForContact() { }
+
+	/**
+	 * @test
+	 */
+	public function setBuyerForContactSetsBuyer() { }
 	
 }
 ?>

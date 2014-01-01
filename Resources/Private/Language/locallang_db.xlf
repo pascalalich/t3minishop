@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2013-12-30T12:31:21Z" product-name="t3minishop">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-01-01T16:52:37Z" product-name="t3minishop">
 		<header/>
 		<body>
 
 			<trans-unit id="tx_t3minishop_domain_model_order">
 				<source>Order</source>
 			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_order.comment">
+				<source>Comment</source>
+			</trans-unit>
 			<trans-unit id="tx_t3minishop_domain_model_order.positions">
 				<source>Positions</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_order.buyer">
+				<source>Buyer</source>
 			</trans-unit>
 
 			<trans-unit id="tx_t3minishop_domain_model_orderposition">
@@ -29,6 +35,25 @@
 			</trans-unit>
 			<trans-unit id="tx_t3minishop_domain_model_product.price">
 				<source>Price</source>
+			</trans-unit>
+
+			<trans-unit id="tx_t3minishop_domain_model_contact">
+				<source>Contact</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_contact.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_contact.address">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_contact.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_contact.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_contact.telephone">
+				<source>Telephone</source>
 			</trans-unit>
 
 		</body>
