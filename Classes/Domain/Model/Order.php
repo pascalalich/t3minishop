@@ -42,6 +42,20 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $positions;
 
 	/**
+	 * buyer
+	 *
+	 * @var \TYPO3\T3minishop\Domain\Model\Contact
+	 */
+	protected $buyer;
+	
+	/**
+	 * comment
+	 *
+	 * @var \string
+	 */
+	protected $comment;
+	
+	/**
 	 * __construct
 	 *
 	 * @return Order
@@ -102,6 +116,44 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setPositions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $positions) {
 		$this->positions = $positions;
+	}
+	
+	/**
+	 * Returns the comment
+	 *
+	 * @return \string $comment
+	 */
+	public function getComment() {
+		return $this->comment;
+	}
+	
+	/**
+	 * Sets the comment
+	 *
+	 * @param \string $comment
+	 * @return void
+	 */
+	public function setComment($comment) {
+		$this->comment = $comment;
+	}
+	
+	/**
+	 * Returns the buyer
+	 *
+	 * @return \TYPO3\T3minishop\Domain\Model\Contact $buyer
+	 */
+	public function getBuyer() {
+		return $this->buyer;
+	}
+	
+	/**
+	 * Sets the buyer
+	 *
+	 * @param \TYPO3\T3minishop\Domain\Model\Contact $buyer
+	 * @return void
+	 */
+	public function setBuyer(\TYPO3\T3minishop\Domain\Model\Contact $buyer) {
+		$this->buyer = $buyer;
 	}
 	
 	/**
