@@ -63,6 +63,9 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function __construct() {
 		//Do not remove the next line: It would break the functionality
 		$this->initStorageObjects();
+		
+		// create empty buyer object
+		$this->buyer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Contact');
 	}
 
 	/**

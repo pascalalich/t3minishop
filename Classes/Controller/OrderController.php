@@ -77,11 +77,11 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			$this->setOrderToSession($order);
 		}
 		
-// 		if ($this->request->hasArgument('editAction')) {
-// 			$this->forward('edit');
-// 		}
-		
-		$this->forward('showBasket', NULL, NULL, NULL);
+		if ($this->request->hasArgument('checkout')) {
+			$this->forward('checkout');
+		} else {
+			$this->forward('showBasket', NULL, NULL, NULL);
+		}
 	}
 
 	/**
@@ -109,7 +109,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @param integer $id
 	 */
 	public function removePositionAction($id) {
-		$this->logger->info ( "removePosition action", array (
+		$this->logger->info("removePosition action", array (
 				'position id' => $id
 		));
 		
@@ -126,6 +126,16 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		
 		$this->logger->info ("Before redirecting to basket");
 		$this->redirect('showBasket', NULL, NULL, NULL);
+	}
+	
+	/**
+	 * Initiate checkout
+	 */
+	public function checkoutAction() {
+		$this->logger->info("Initiating checkout...");
+		
+		$order = $this->getOrderFromSession();
+		$this->view->assign('order', $order);
 	}
 	
 	private function getOrderFromSession() {

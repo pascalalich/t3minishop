@@ -1,0 +1,59 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+<div class="order-checkout">
+	<h1>Neue Bestellung</h1>
+
+	<f:render partial="formErrors" arguments="{for: 'order'}" />
+	
+	<f:form method="post" controller="Order" action="create" name="order" object="{order}">
+		<fieldset>
+			<legend>Persönliche Daten</legend>
+			<ol>
+				<li>
+					<label>Name<em>*</em></label>
+					<f:form.textfield property="buyer.name" size="35" />
+				</li>
+				<li>
+					<label>Straße und Hausnr.<em>*</em></label>
+					<f:form.textfield property="buyer.address" size="35" />
+				</li>
+				<li>
+					<label>Postleitzahl und Ort<em>*</em></label>
+					<f:form.textfield property="buyer.city" />
+				</li>
+				<li>
+					<label>E-Mail<em>*</em></label>
+					<f:form.textfield property="buyer.email" size="35" />
+				</li>
+				<li>
+					<label>Telefon<em>*</em></label>
+					<f:form.textfield property="buyer.telephone" size="35" />
+				</li>
+			</ol>
+		</fieldset>
+		<fieldset>
+			<legend>Ihre Nachricht an uns</legend>
+			<ol>
+				<li>
+					<label for="comment">Nachricht</label>
+					<f:form.textarea property="comment" rows="5" cols="50" /><br/>
+				</li>
+			</ol>
+		</fieldset>
+		<fieldset>
+			<legend>Zusammenfassung</legend>
+			<p>Artikel: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro;</p>
+			<p>Versand: ???</p>
+			<p>Gesamtbetrag: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro;</p>
+			<p>Zahlungsart: ???</p>
+			<p>Sie erhalten automatisch eine Bestellbestätigung. + weitere Erläuterungen</p>
+		</fieldset>
+		
+		<f:form.submit name="showBasket" value="Zurück" />
+		<!--<input type="button" onclick="history.back();" value="Zur�ck" />-->
+		<f:form.submit value="Bestellen" />
+	</f:form>
+
+</div>
+</f:section>
