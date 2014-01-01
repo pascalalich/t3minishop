@@ -11,6 +11,13 @@ plugin.tx_t3minishop {
 		# uncomment the following line to enable the new Property Mapper.
 		# rewrittenPropertyMapper = 1
 	}
+	settings {
+		email = 1
+	    emailFrom = info@thomassteinlein.de
+	    emailFromName = Thomas Steinlein Shop
+	    emailTo = pascal@alichs.de
+	    emailBcc = pascal@alichs.de
+	}
 }
 
 plugin.tx_t3minishop._CSS_DEFAULT_STYLE (

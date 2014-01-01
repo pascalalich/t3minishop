@@ -175,7 +175,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	private function sendAdminMail(\TYPO3\T3minishop\Domain\Model\Order $order) {
 		$email['subject']   = 'Neue Bestellung';
 		$template = 'adminOrderMail.txt';
-		$email['toEmail']   = 'pascal@alichs.de';//$this->settings['emailTo'];
+		$email['toEmail']   = $this->settings['emailTo'];
 		$email['fromName']  = $order->getBuyer()->getName();
 		$email['fromEmail'] = $order->getBuyer()->getEmail();
 		$email['body'] = $this->getMailBody($order, $template);
@@ -195,8 +195,8 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$template = 'customerOrderMail.txt';
 		$email['toName']   = $order->getBuyer()->getName();
 		$email['toEmail']   = $order->getBuyer()->getEmail();
-		$email['fromName']  = 'Thomas Steinlein Shop';
-		$email['fromEmail'] = 'info@thomassteinlein.de';//$this->settings['emailFrom'];
+		$email['fromName']  = $this->settings['emailFromName'];
+		$email['fromEmail'] = $this->settings['emailFrom'];
 		$email['body'] = $this->getMailBody($order, $template);
 		if ($this->settings['emailBcc']) {
 			$email['bcc'] = $this->settings['emailBcc'];
@@ -210,7 +210,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @param array $email the mail data
 	 */
 	private function sendMail($email) {
-		//if ($this->settings['email']) {
+		if ($this->settings['email']) {
 			$mail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
 			$mail->setFrom(array($email['fromEmail'] => $email['fromName']));
 			$mail->setTo(array($email['toEmail'] => $email['toName']));
@@ -220,7 +220,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			$mail->setSubject($email['subject']);
 			$mail->setBody($email['body']);
 			$mail->send();
-		//}
+		}
 		$this->logger->info("order email sent", array (
 				'email' => $email
 		));
