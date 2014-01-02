@@ -13,10 +13,11 @@ plugin.tx_t3minishop {
 	}
 	settings {
 		email = 1
-	    emailFrom = info@thomassteinlein.de
-	    emailFromName = Thomas Steinlein Shop
-	    emailTo = pascal@alichs.de
-	    emailBcc = pascal@alichs.de
+	    emailFrom = shop@yourdomain.de
+	    emailFromName = Shop
+	    emailTo = shop@yourdomain.de
+	    # send blind copies of all mails to developer (for testing only)
+	    # emailBcc = admin@yourdomain.de
 	}
 }
 
