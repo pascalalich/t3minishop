@@ -160,6 +160,21 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 	
 	/**
+	 * Counts and returns the number of items currently added to the order.
+	 * @return integer
+	 */
+	public function getItemCount() {
+		$count = 0;
+		$this->positions->rewind();
+		while ($this->positions->valid()) {
+			$position = $this->positions->current();
+			$count += $position->getQuantity();
+			$this->positions->next();
+		}
+		return $count;
+	}
+	
+	/**
 	 * Calculates and returns the total price.
 	 * @return float total price
 	 */

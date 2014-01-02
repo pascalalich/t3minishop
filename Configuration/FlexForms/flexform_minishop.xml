@@ -14,8 +14,12 @@
 								<type>select</type>
 								<items>
 									<numIndex index="0">
-										<numIndex index="0">Minishop basket</numIndex>
+										<numIndex index="0">Minishop basket and checkout</numIndex>
 										<numIndex index="1">Order->showBasket;Order->updateBasket;Order->removePosition;Order->checkout;Order->submitOrder</numIndex>
+									</numIndex>
+									<numIndex index="1">
+										<numIndex index="0">Minishop minimal basket</numIndex>
+										<numIndex index="1">Order->showMiniBasket</numIndex>
 									</numIndex>
 								</items>
 							</config>

@@ -49,6 +49,18 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	protected $orderRepository;
 
 	/**
+	 * Action for showing a minimal basket version.
+	 * 
+	 * @return void
+	 */
+	public function showMiniBasketAction() {
+		$order = $this->getOrderFromSession();
+		$this->view->assign('order', $order);
+		$basketPageUid = isset($this->settings['basketPid']) ? intval($this->settings['basketPid']) : '';
+		$this->view->assign('basketPageUid', $basketPageUid);
+	}
+	
+	/**
 	 * action showBasket
 	 *
 	 * @return void

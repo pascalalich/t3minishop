@@ -17,7 +17,9 @@ plugin.tx_t3minishop {
 	    emailFromName = Shop
 	    emailTo = shop@yourdomain.de
 	    # send blind copies of all mails to developer (for testing only)
-	    # emailBcc = admin@yourdomain.de
+	    emailBcc = admin@yourdomain.de
+	    # page ID where the basket is displayed
+	    basketPid =
 	}
 }
 

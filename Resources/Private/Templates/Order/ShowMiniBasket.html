@@ -1,0 +1,19 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+<div class="order-minibasket">
+<h1>Warenkorb</h1>
+<f:if condition="{order.positions}">
+	<f:then>
+		<p>{order.itemCount} Artikel im Warenkorb</p>
+		<p>Gesamtbetrag: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro; zzgl. Versand</p>
+		<p>
+			<f:link.action pageUid="{basketPageUid}" controller="Order" action="showBasket">Zum Warenkorb</f:link.action>
+		</p>
+	</f:then>
+	<f:else>
+		<p>Keine Produkte im Warenkorb</p>
+	</f:else>
+</f:if>
+</div>
+</f:section>
