@@ -154,6 +154,9 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$order->setPositions($sessionOrder->getPositions());
 		
 		$this->sendNotifications($order);
+		
+		$this->resetOrder();
+		
 		$this->forward('showBasket');
 	}
 	
@@ -241,6 +244,10 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		return $view->render();
 	}
 	
+	private function resetOrder() {
+		$this->setOrderToSession(NULL);
+	}
+	
 	private function getOrderFromSession() {
 		$order = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Order');
 		
@@ -253,8 +260,10 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	}
 	
 	private function setOrderToSession($order) {
-		$sessionOrder = $order->toArray();
-		$this->logger->info ("serialized order before storing in session", $sessionOrder);
+		$sessionOrder = $order != NULL ? $order->toArray() : NULL;
+		$this->logger->info("Serialized order before storing in session", array(
+			'order' => $sessionOrder
+		));
 		$GLOBALS['TSFE']->fe_user->setKey('ses', 'TYPO3\\T3minishop\\Domain\\Model\\Order', $sessionOrder);
 	}
 }
