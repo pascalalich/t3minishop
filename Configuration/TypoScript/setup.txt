@@ -46,4 +46,12 @@ plugin.tx_t3minishop._CSS_DEFAULT_STYLE (
 	.tx-t3minishop table td {
 		vertical-align:top;
 	}
+	
+	.tx-t3minishop form ol li {
+		list-style-type: none;
+	}	
+	
+	.order-basket .position-quantity input[type=text] {
+		width: 30px;
+	}
 )
