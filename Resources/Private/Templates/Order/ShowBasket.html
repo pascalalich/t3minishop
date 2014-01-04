@@ -3,6 +3,7 @@
 <f:section name="main">
 <div class="order-basket">
 <h1>Warenkorb</h1>
+<f:flashMessages />
 <f:if condition="{order.positions}">
 	<f:then>
 		<f:form method="post" controller="Order" action="updateBasket" name="basket" object="{order}">

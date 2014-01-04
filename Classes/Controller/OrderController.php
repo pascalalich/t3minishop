@@ -168,6 +168,8 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$this->sendNotifications($order);
 		
 		$this->resetOrder();
+
+		$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
 		
 		$this->forward('showBasket');
 	}
