@@ -1,0 +1,14 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+<div class="order-checkout">
+	<h1>Bezahlen mit PayPal</h1>
+
+	<p>Gesamtbetrag: {PRICE_TOTAL_TAX} &nbsp;&euro;</p>
+	
+	<form action="{REDIRECT_URL}" method="post" autocomplete="off" name="connectForm">
+		<input type="submit" name="pay" value="Weiter zu PayPal" />
+		<f:format.htmlentitiesDecode value="{HIDDENFIELDS}" keepQuotes="foo" encoding="foo" />
+	</form>
+</div>
+</f:section>

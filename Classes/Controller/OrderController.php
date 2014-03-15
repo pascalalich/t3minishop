@@ -36,9 +36,6 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 	protected $logger;
 	
-	function __construct() {
-		$this->logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager')->getLogger(__CLASS__);
-	}
 	
 	/**
 	 * orderRepository
@@ -48,6 +45,18 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 */
 	protected $orderRepository;
 
+	/**
+	 * payment handler
+	 * 
+	 * @var \TYPO3\T3minishop\Payment\PaymentHandler
+	 */
+	protected  $paymentHandler;
+	
+	function __construct() {
+		$this->logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager')->getLogger(__CLASS__);
+		$this->paymentHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Payment\\PaymentHandler');
+	}
+	
 	/**
 	 * Action for showing a minimal basket version.
 	 * 
@@ -165,13 +174,23 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$sessionOrder = $this->getOrderFromSession();
 		$order->setPositions($sessionOrder->getPositions());
 		
-		$this->sendNotifications($order);
+		$marker = $this->paymentHandler->initPayment($order);
 		
-		$this->resetOrder();
-
-		$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
+		foreach ($marker as $key => $value) {
+			$key = str_replace('#', '', $key);
+			$this->logger->info ( "marker", array (
+					$key => $value
+			));
+			$this->view->assign($key, $value);
+		}
 		
-		$this->forward('showBasket');
+		//$this->sendNotifications($order);
+		
+		//$this->resetOrder();
+		
+		//$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
+		
+		//$this->forward('showBasket');
 	}
 	
 	/**
