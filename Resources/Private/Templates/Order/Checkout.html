@@ -37,7 +37,7 @@
 		<p>Artikel: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro;</p>
 		<p>Versand: ???</p>
 		<p>Gesamtbetrag: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro;</p>
-		<p>Zahlungsart: ???</p>
+		<p>Zahlungsart: <f:form.radio name="paymentmode" value="paypal" checked="true" />&nbsp;PayPal <f:form.radio name="paymentmode" value="prepayment" />&nbsp;Vorkasse</p>
 		<p>Sie erhalten automatisch eine Bestellbestätigung. + weitere Erläuterungen</p>
 		
 		<f:form.submit name="showBasket" value="Zurück" />
