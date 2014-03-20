@@ -1,0 +1,28 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+<div class="order-checkout">
+	<h1>Sie werden zu PayPal weitergeleitet...</h1>
+
+	<form action="{paypal.url}" method="post" autocomplete="off" name="paypalForm">
+		<input type="hidden" name="currency_code" value="EUR">
+		<input type="hidden" name="return" value="http://localhost/testeinlein//testeinlein/music/finalize/?t3minishop%5Bactivity%5D%5Bfinalize%5D=1">
+		<input type="hidden" name="cancel_return" value="http://localhost/testeinlein//testeinlein/music/warenkorb/">
+		<input type="hidden" name="cmd" value="_cart">
+		<input type="hidden" name="upload" value="1">
+		<input type="hidden" name="business" value="pascalalich-receiver@gmx.de">
+		<input type="hidden" name="invoice" value="ORDERID">
+		<input type="hidden" name="custom" value="transactor_paypal#8bede3f614d45fe12778d13eaf358fb2">
+		<input type="hidden" name="item_name_1" value="Einkauf bei Thomas Steinlein">
+		<input type="hidden" name="amount_1" value="{order.total}">
+		<input type="hidden" name="shipping_1" value="{order.shipping}">
+		<input type="hidden" name="country" value="DE">
+		<input type="hidden" name="lc" value="DE">
+
+		<input type="submit" name="pay" value="Weiter zu PayPal" />
+	</form>
+</div>
+<script "text/javascript">
+	document.getElementsByName("paypalForm")[0].submit();
+</script>
+</f:section>

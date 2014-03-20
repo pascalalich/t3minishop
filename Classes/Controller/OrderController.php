@@ -168,29 +168,47 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		
 		if ($this->request->hasArgument('showBasket')) {
 			$this->forward('showBasket');
+		} else if ($this->request->hasArgument('payViaPaypal')) {
+			$this->forward('payViaPaypal', NULL, NULL, array('order' => $order));
+			
+		} else if ($this->request->hasArgument('payViaPrepayment')) {
+			// restore positions
+			$sessionOrder = $this->getOrderFromSession();
+			$order->setPositions($sessionOrder->getPositions());
+			
+			$this->sendNotifications($order);
+			$this->resetOrder();
+			$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
+			$this->forward('showBasket');
 		}
-		
+	}
+	
+	/**
+	 * Forward and pay via PayPal
+	 * 
+	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 * @return void
+	 */
+	public function payViaPaypalAction(\TYPO3\T3minishop\Domain\Model\Order $order) {
 		// restore positions
 		$sessionOrder = $this->getOrderFromSession();
 		$order->setPositions($sessionOrder->getPositions());
 		
-		$marker = $this->paymentHandler->initPayment($order);
+		$this->view->assign('order', $order);
+		$this->view->assign('paypal', array(
+			'url' => 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+		));
 		
-		foreach ($marker as $key => $value) {
-			$key = str_replace('#', '', $key);
-			$this->logger->info ( "marker", array (
-					$key => $value
-			));
-			$this->view->assign($key, $value);
-		}
 		
-		//$this->sendNotifications($order);
+// 		$marker = $this->paymentHandler->initPayment($order);
 		
-		//$this->resetOrder();
-		
-		//$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
-		
-		//$this->forward('showBasket');
+// 		foreach ($marker as $key => $value) {
+// 			$key = str_replace('#', '', $key);
+// 			$this->logger->info ( "marker", array (
+// 					$key => $value
+// 			));
+// 			$this->view->assign($key, $value);
+// 		}
 	}
 	
 	/**

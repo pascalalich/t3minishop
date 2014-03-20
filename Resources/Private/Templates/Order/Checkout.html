@@ -37,12 +37,28 @@
 		<p>Artikel: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro;</p>
 		<p>Versand: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">0</f:format.number>&nbsp;&euro;</p>
 		<p>Gesamtbetrag: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro;</p>
-		<p>Zahlungsart: <f:form.radio name="paymentmode" value="paypal" checked="true" />&nbsp;PayPal <f:form.radio name="paymentmode" value="prepayment" />&nbsp;Vorkasse</p>
-		<p>Sie erhalten automatisch eine Bestellbestätigung. + weitere Erläuterungen</p>
-		
-		<f:form.submit name="showBasket" value="Zurück" />
-		<f:form.submit value="Bestellen" />
+		<p>Zahlungsart: <f:form.radio id="paymentmodePaypal" name="paymentmode" value="paypal" checked="true" />&nbsp;PayPal <f:form.radio id="paymentmodePrepayment" name="paymentmode" value="prepayment" />&nbsp;Vorkasse</p>
+		<div id="paypalInfos">
+			<p>Bezahlen Sie einfach und sicher via PayPal. Klicken Sie dazu auf "Bezahlen mit PayPal". Nach erfolgreicher Zahlung erhalten Sie eine Bestellbestätigung.</p>
+			<f:form.submit name="showBasket" value="Zurück" />
+			<f:form.submit name="payViaPaypal" value="Bezahlen mit PayPal" />
+		</div>
+		<div id="prepaymentInfos" style="display:none;">
+			<p>Sie haben Vorkasse gewählt. Klicken Sie auf "Jetzt bestellen" um die Bestellung abzuschließen. Sie erhalten eine Bestellbestätigung mit der Kontoverbindung.</p>
+			<f:form.submit name="showBasket" value="Zurück" />
+			<f:form.submit name="payViaPrepayment" value="Jetzt bestellen" />
+		</div>
 	</f:form>
-
 </div>
+<script "text/javascript">
+	document.getElementById("paymentmodePaypal").onchange = function() {
+		document.getElementById("paypalInfos").style.display="block";
+		document.getElementById("prepaymentInfos").style.display="none";
+	};
+	document.getElementById("paymentmodePrepayment").onchange = function() {
+		document.getElementById("paypalInfos").style.display="none";
+		document.getElementById("prepaymentInfos").style.display="block";
+	};
+	
+</script>
 </f:section>

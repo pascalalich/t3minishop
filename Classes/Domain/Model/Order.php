@@ -189,6 +189,15 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $total;
 	}
 
+	/**
+	 * Calculates and returns the shipping price.
+	 * @return float shipping price
+	 */
+	public function getShipping() {
+		// TODO implement
+		return 4.5;
+	}
+
 	private function getNextPositionId() {
 		$positionsArray = $this->positions->toArray();
 		if (count($positionsArray) === 0) {
