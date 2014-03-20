@@ -195,8 +195,15 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$order->setPositions($sessionOrder->getPositions());
 		
 		$this->view->assign('order', $order);
+		$orderId = 1;
+		$this->view->assign('orderId', $orderId);
+		$this->view->assign('orderTitle', 'Einkauf bei Thomas Steinlein');
+		$this->view->assign('transactionId', "t3minishop#$orderId");
 		$this->view->assign('paypal', array(
-			'url' => 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+			'url' => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
+			'returnUrlSuccess' => '',
+			'returnUrlCancel' => '',
+			'receiver' => 'pascalalich-receiver@gmx.de'
 		));
 		
 		
