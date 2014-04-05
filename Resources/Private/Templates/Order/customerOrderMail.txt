@@ -9,6 +9,7 @@ Produkte:
 Artikel:       <f:format.currency currencySign="€">{order.total}</f:format.currency>
 Versand:       <f:format.currency currencySign="€">???</f:format.currency>
 Gesamtbetrag:  <f:format.currency currencySign="€">{order.total}</f:format.currency>
+MwSt-befreit nach §4 UStG
 
 Ihre Nachricht:
 {order.comment}
