@@ -38,7 +38,7 @@
 					<td></td>
 					<td></td>
 					<td></td>
-					<td class="total-price"><f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro; zzgl. Versand, MwSt-befreit nach &sect;4 UStG</td>
+					<td class="total-price"><f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.itemsTotal}</f:format.number>&nbsp;&euro;<f:if condition="{order.includesShipping}"> zzgl. Versand</f:if>, MwSt-befreit nach &sect;4 UStG</td>
 				</tr>
 			</table>
 			<f:form.submit name="updateBasket" value="Aktualisieren" />

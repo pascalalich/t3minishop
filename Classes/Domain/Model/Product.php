@@ -49,6 +49,13 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @validate NotEmpty
 	 */
 	protected $price;
+	
+	/**
+	 * is it a digital product for download?
+	 * 
+	 * @var \boolean
+	 */
+	protected $digital;
 
 	/**
 	 * Returns the title
@@ -87,17 +94,35 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setPrice($price) {
 		$this->price = $price;
 	}
+	
+	/**
+	 * Is it a digital product for download?
+	 * @return \boolean $digital
+	 */
+	public function isDigital() {
+		return $this->digital;
+	}
+	
+	/**
+	 * Sets the digital property
+	 * @param \boolean $digital
+	 */
+	public function setDigital($digital) {
+		$this->digital = $digital;
+	}
 
 	public function toArray() {
 		$a = array();
 		$a['title'] = $this->getTitle();
 		$a['price'] = $this->getPrice();
+		$a['digital'] = $this->isDigital();
 		return $a;
 	}
 	
 	public function fromArray($productArr) {
 		$this->setTitle($productArr['title']);
 		$this->setPrice($productArr['price']);
+		$this->setDigital($productArr['digital']);
 	}
 }
 ?>

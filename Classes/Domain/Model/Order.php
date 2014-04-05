@@ -175,10 +175,10 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 	
 	/**
-	 * Calculates and returns the total price.
+	 * Calculates and returns the total price of the items (excluding shipping).
 	 * @return float total price
 	 */
-	public function getTotal() {
+	public function getItemsTotal() {
 		$total = 0.0;
 		$this->positions->rewind();
 		while ($this->positions->valid()) {
@@ -190,12 +190,39 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Calculates and returns the total price of the items (including shipping).
+	 * @return float total price
+	 */
+	public function getTotal() {
+		return $this->getItemsTotal() + $this->getShipping();
+	}
+
+	/**
 	 * Calculates and returns the shipping price.
 	 * @return float shipping price
 	 */
 	public function getShipping() {
-		// TODO implement
-		return 4.5;
+		$shipping = 0.0;
+		if ($this->isIncludesShipping()) {
+			$shipping = 4.5;
+		}
+		return $shipping;
+	}
+	/**
+	 * @return boolean does the order contain shipping?
+	 */
+	public function isIncludesShipping() {
+		$shipping = false;
+		$this->positions->rewind();
+		while ($this->positions->valid()) {
+			$position = $this->positions->current();
+			if (!$position->getProduct()->isDigital()) {
+				$shipping = true;
+				break;
+			}
+			$this->positions->next();
+		}
+		return $shipping;
 	}
 
 	private function getNextPositionId() {

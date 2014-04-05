@@ -6,8 +6,8 @@ INFOS ZUR ZAHLUNG UND ZUM VERSAND KOMMEN HIER
 Produkte:
 <f:for each="{order.positions}" as="position">- {position.quantity}x {position.product.title}
 </f:for>
-Artikel:       <f:format.currency currencySign="€">{order.total}</f:format.currency>
-Versand:       <f:format.currency currencySign="€">???</f:format.currency>
+Artikel:       <f:format.currency currencySign="€">{order.itemsTotal}</f:format.currency>
+Versand:       <f:format.currency currencySign="€">{order.shipping}</f:format.currency>
 Gesamtbetrag:  <f:format.currency currencySign="€">{order.total}</f:format.currency>
 MwSt-befreit nach §4 UStG
 
