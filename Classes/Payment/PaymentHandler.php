@@ -27,10 +27,6 @@ namespace TYPO3\T3minishop\Payment;
  * This copyright notice MUST APPEAR in all copies of the script!
  * *************************************************************
  */
-require \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath ( 'transactor' ) . 'lib/class.tx_transactor_api.php';
-// \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance ( 'TYPO3\\CMS\\Core\\Log\\LogManager' )->getLogger ( 'requireonce' )->info ( 'transactor loaded', array (
-// 'path' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath ( 'transactor' ) . 'lib/tx_transactor_api.php'
-// ) );
 
 /**
  *
