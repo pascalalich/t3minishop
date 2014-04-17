@@ -20,6 +20,8 @@ plugin.tx_t3minishop {
 	    emailBcc = admin@yourdomain.de
 	    # page ID where the basket is displayed
 	    basketPid =
+	    # paypal mode (test, production)
+	    paypalMode = test
 	}
 }
 

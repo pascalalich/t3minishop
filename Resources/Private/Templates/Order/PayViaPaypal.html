@@ -6,8 +6,8 @@
 	<p>Sollten Sie nicht innerhalb von 10 Sekunden weitergeleitet worden sein, klicken Sie bitte <a href="javascript:doSubmit();">hier</a>.</p>
 	<form action="{paypal.url}" method="post" autocomplete="off" name="paypalForm">
 		<input type="hidden" name="currency_code" value="EUR">
-		<input type="hidden" name="return" value="{paypla.returnUrlSuccess}">
-		<input type="hidden" name="cancel_return" value="{paypla.returnUrlCancel}">
+		<input type="hidden" name="return" value="{paypal.returnUrlSuccess}">
+		<input type="hidden" name="cancel_return" value="{paypal.returnUrlCancel}">
 		<input type="hidden" name="cmd" value="_cart">
 		<input type="hidden" name="upload" value="1">
 		<input type="hidden" name="business" value="{paypal.receiver}">
@@ -16,6 +16,7 @@
 		<input type="hidden" name="item_name_1" value="{orderTitle}">
 		<input type="hidden" name="amount_1" value="{order.itemsTotal}">
 		<input type="hidden" name="shipping_1" value="{order.shipping}">
+		<input type="hidden" name="discount_amount_1" value="{order.discount}">
 		<input type="hidden" name="country" value="DE">
 		<input type="hidden" name="lc" value="DE">
 	</form>

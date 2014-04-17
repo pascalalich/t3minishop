@@ -54,7 +54,6 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	
 	function __construct() {
 		$this->logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager')->getLogger(__CLASS__);
-		$this->paymentHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Payment\\PaymentHandler');
 	}
 	
 	/**
@@ -189,33 +188,48 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
 	 * @return void
 	 */
-	public function payViaPaypalAction(\TYPO3\T3minishop\Domain\Model\Order $order) {
-		// restore positions
-		$sessionOrder = $this->getOrderFromSession();
-		$order->setPositions($sessionOrder->getPositions());
+	public function payViaPaypalAction(\TYPO3\T3minishop\Domain\Model\Order $order = NULL) {
+		// return from paypal
+		if ($this->request->hasArgument('paypalStatus')) {
+			$status = $this->request->getArgument('paypalStatus');
+			if ($status === 'success') {
+				// TODO
+			} else if ($status === 'cancel') {
+				$this->flashMessageContainer->add('Bezahlung mit PayPal abgebrochen!');
+				$this->forward('checkout');
+			}
+		} else {
+			// restore positions
+			$sessionOrder = $this->getOrderFromSession();
 		
-		$this->view->assign('order', $order);
-		$orderId = 1;
-		$this->view->assign('orderId', $orderId);
-		$this->view->assign('orderTitle', 'Einkauf bei Thomas Steinlein');
-		$this->view->assign('transactionId', "t3minishop#$orderId");
-		$this->view->assign('paypal', array(
-			'url' => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
-			'returnUrlSuccess' => '',
-			'returnUrlCancel' => '',
-			'receiver' => 'pascalalich-receiver@gmx.de'
-		));
-		
-		
-// 		$marker = $this->paymentHandler->initPayment($order);
-		
-// 		foreach ($marker as $key => $value) {
-// 			$key = str_replace('#', '', $key);
-// 			$this->logger->info ( "marker", array (
-// 					$key => $value
-// 			));
-// 			$this->view->assign($key, $value);
-// 		}
+			$order->setPositions($sessionOrder->getPositions());
+			$this->setOrderToSession($order);
+			
+			$this->view->assign('order', $order);
+			$orderId = 1;
+			$this->view->assign('orderId', $orderId);
+			$this->view->assign('orderTitle', 'Einkauf bei Thomas Steinlein');
+			$this->view->assign('transactionId', "t3minishop#$orderId");
+			// defaults to test
+			$paypalURL = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+			if ($this->settings['paypalMode'] === 'production') {
+				$paypalURL = 'https://www.paypal.com/cgi-bin/webscr';
+			}
+			
+			$successURL = $this->controllerContext->getUriBuilder()->reset()->setArguments(array('tx_t3minishop_minishop' => array('paypalStatus' => 'success')))->setCreateAbsoluteUri(true)->setUseCacheHash(false)->uriFor($actionName='payViaPaypal');
+			$cancelURL = $this->controllerContext->getUriBuilder()->reset()->setArguments(array('tx_t3minishop_minishop' => array('paypalStatus' => 'cancel')))->setCreateAbsoluteUri(true)->setUseCacheHash(false)->uriFor($actionName='payViaPaypal');
+			
+			$arr = array(
+					'url' => $paypalURL,
+					'returnUrlSuccess' => $successURL,
+					'returnUrlCancel' => $cancelURL,
+					'receiver' => 'pascalalich-receiver@gmx.de'
+			);
+			$this->logger->info("paypal action", array (
+					'paypal vars' => $arr
+			));
+			$this->view->assign('paypal', $arr);
+		}
 	}
 	
 	/**
