@@ -9,7 +9,8 @@ Adresse: {order.buyer.address}, {order.buyer.city}
 Telefon: {order.buyer.telephone}
 
 Artikel:       <f:format.currency currencySign="€">{order.itemsTotal}</f:format.currency>
-Versand:       <f:format.currency currencySign="€">{order.shipping}</f:format.currency>
+Versand:       <f:format.currency currencySign="€">{order.shipping}</f:format.currency><f:if condition="{order.discount} > 0.0">
+Rabatt:        -<f:format.currency currencySign="€">{order.discount}</f:format.currency></f:if>
 Gesamtbetrag:  <f:format.currency currencySign="€">{order.total}</f:format.currency>
 
 Nachricht des Kunden:

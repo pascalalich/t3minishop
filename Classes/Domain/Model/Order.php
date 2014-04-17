@@ -194,7 +194,7 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return float total price
 	 */
 	public function getTotal() {
-		return $this->getItemsTotal() + $this->getShipping();
+		return $this->getItemsTotal() + $this->getShipping() - $this->getDiscount();
 	}
 
 	/**
@@ -204,25 +204,52 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function getShipping() {
 		$shipping = 0.0;
 		if ($this->isIncludesShipping()) {
-			$shipping = 4.5;
+			$shipping = 2.5;
 		}
 		return $shipping;
+	}
+	
+	/**
+	 * Calculates and returns the discount
+	 * @return float discount
+	 */
+	public function getDiscount() {
+		$discount = 0.0;
+		$cdCount = $this->getNumberOfCDs();
+		
+		if ($cdCount >= 6) {
+			$discount = $cdCount * (16.40 - 12.50);
+		} else if ($cdCount == 5) {
+			$discount = $cdCount * (16.40 - 13.0);
+		} else if ($cdCount == 4) {
+			$discount = $cdCount * (16.40 - 13.75);
+		}
+		
+		return $discount;
 	}
 	/**
 	 * @return boolean does the order contain shipping?
 	 */
 	public function isIncludesShipping() {
-		$shipping = false;
+		$cdCount = $this->getNumberOfCDs();
+		return ($cdCount > 0 && $cdCount < 4);
+	}
+	
+	/**
+	 * @return integer number of CDs in the order
+	 */
+	private function getNumberOfCDs() {
+		$number = 0;
 		$this->positions->rewind();
 		while ($this->positions->valid()) {
 			$position = $this->positions->current();
-			if (!$position->getProduct()->isDigital()) {
-				$shipping = true;
-				break;
+			$product = $position->getProduct();
+			if (!$product->isDigital() && strpos($product->getTitle(),'CD') !== false) {
+				$number += $position->getQuantity();
 			}
 			$this->positions->next();
 		}
-		return $shipping;
+		return $number;
 	}
 
 	private function getNextPositionId() {

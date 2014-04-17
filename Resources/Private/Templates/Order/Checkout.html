@@ -36,6 +36,9 @@
 		
 		<p>Artikel: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.itemsTotal}</f:format.number>&nbsp;&euro;</p>
 		<p>Versand: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.shipping}</f:format.number>&nbsp;&euro;</p>
+		<f:if condition="{order.discount} > 0.0">
+			<p>Rabatt: -<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.discount}</f:format.number>&nbsp;&euro;</p>
+		</f:if>
 		<p>Gesamtbetrag: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro;</p>
 		<p>MwSt-befreit nach &sect;4 UStG</p>
 		<p>Zahlungsart: <f:form.radio id="paymentmodePaypal" name="paymentmode" value="paypal" checked="true" />&nbsp;PayPal <f:form.radio id="paymentmodePrepayment" name="paymentmode" value="prepayment" />&nbsp;Vorkasse</p>

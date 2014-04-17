@@ -7,7 +7,8 @@ Produkte:
 <f:for each="{order.positions}" as="position">- {position.quantity}x {position.product.title}
 </f:for>
 Artikel:       <f:format.currency currencySign="€">{order.itemsTotal}</f:format.currency>
-Versand:       <f:format.currency currencySign="€">{order.shipping}</f:format.currency>
+Versand:       <f:format.currency currencySign="€">{order.shipping}</f:format.currency><f:if condition="{order.discount} > 0.0">
+Rabatt:        -<f:format.currency currencySign="€">{order.discount}</f:format.currency></f:if>
 Gesamtbetrag:  <f:format.currency currencySign="€">{order.total}</f:format.currency>
 MwSt-befreit nach §4 UStG
 

@@ -6,7 +6,7 @@
 <f:if condition="{order.positions}">
 	<f:then>
 		<p>{order.itemCount} Artikel im Warenkorb</p>
-		<p>Gesamt: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.itemsTotal}</f:format.number>&nbsp;&euro;<f:if condition="{order.includesShipping}"> zzgl. Versand</f:if></p>
+		<p>Gesamt: <f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{order.total}</f:format.number>&nbsp;&euro;<f:if condition="{order.includesShipping}"> inkl. Versand</f:if></p>
 		<p>
 			<f:link.action pageUid="{basketPageUid}" controller="Order" action="showBasket">Zum Warenkorb</f:link.action>
 		</p>
