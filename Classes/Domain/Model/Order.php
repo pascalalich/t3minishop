@@ -322,6 +322,7 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function toArray() {
 		$a = array();
 		$a['positions'] = $this->getPositionsAsArray();
+		$a['buyer'] = $this->getBuyer()->toArray();
 		return $a;
 	}
 	
@@ -346,6 +347,8 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			$position->fromArray($positionArr);
 			$this->addPosition($position);
 		}
+		
+		$this->getBuyer()->fromArray($orderArr['buyer']);
 	}
 	
 	public function updateQuantities($quantities) {

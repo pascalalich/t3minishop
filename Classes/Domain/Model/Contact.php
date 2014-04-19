@@ -166,5 +166,22 @@ class Contact extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->telephone = $telephone;
 	}
 
+	public function toArray() {
+		$a = array();
+		$a['name'] = $this->getName();
+		$a['address'] = $this->getAddress();
+		$a['city'] = $this->getCity();
+		$a['email'] = $this->getEmail();
+		$a['telephone'] = $this->getTelephone();
+		return $a;
+	}
+	
+	public function fromArray($orderArr) {
+		$this->setName($orderArr['name']);
+		$this->setAddress($orderArr['address']);
+		$this->setCity($orderArr['city']);
+		$this->setEmail($orderArr['email']);
+		$this->setTelephone($orderArr['telephone']);
+	}
 }
 ?>

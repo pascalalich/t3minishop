@@ -5,6 +5,7 @@
 	<h1>Neue Bestellung</h1>
 
 	<f:render partial="formErrors" arguments="{for: 'order'}" />
+	<f:flashMessages />
 	
 	<f:form method="post" controller="Order" action="submitOrder" name="order" object="{order}">
 		<ol>

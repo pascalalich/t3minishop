@@ -167,18 +167,28 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		
 		if ($this->request->hasArgument('showBasket')) {
 			$this->forward('showBasket');
-		} else if ($this->request->hasArgument('payViaPaypal')) {
-			$this->forward('payViaPaypal', NULL, NULL, array('order' => $order));
-			
-		} else if ($this->request->hasArgument('payViaPrepayment')) {
-			// restore positions
-			$sessionOrder = $this->getOrderFromSession();
-			$order->setPositions($sessionOrder->getPositions());
-			
-			$this->sendNotifications($order);
-			$this->resetOrder();
-			$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
-			$this->forward('showBasket');
+		} else {
+			if ($this->validateBuyer($order->getBuyer())) {
+				if ($this->request->hasArgument('payViaPaypal')) {
+					$this->forward('payViaPaypal', NULL, NULL, array('order' => $order));
+					
+				} else if ($this->request->hasArgument('payViaPrepayment')) {
+					// restore positions
+					$sessionOrder = $this->getOrderFromSession();
+					$order->setPositions($sessionOrder->getPositions());
+					
+					$this->sendNotifications($order);
+					$this->resetOrder();
+					$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
+					$this->forward('showBasket');
+				}
+			} else {
+				// restore positions
+				$sessionOrder = $this->getOrderFromSession();
+				$order->setPositions($sessionOrder->getPositions());
+				$this->setOrderToSession($order);
+				$this->forward('checkout');
+			}
 		}
 	}
 	
@@ -230,6 +240,47 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			));
 			$this->view->assign('paypal', $arr);
 		}
+	}
+	
+	/**
+	 * Validates the buyer infos.
+	 * 
+	 * If not valid, adds flash messages and returns false.
+	 * 
+	 * @param \TYPO3\T3minishop\Domain\Model\Contact $buyer
+	 * @return boolean true if buyer is valid, false otherwise
+	 */
+	private function validateBuyer(\TYPO3\T3minishop\Domain\Model\Contact $buyer) {
+		$valid = true;
+		if ($this->isEmpty($buyer->getName())) {
+			$this->flashMessageContainer->add('Bitte geben Sie Ihren Namen ein.');
+			$valid = false;
+		}
+		if ($this->isEmpty($buyer->getAddress())) {
+			$this->flashMessageContainer->add('Bitte geben Sie Ihre Straße ein.');
+			$valid = false;
+		}
+		if ($this->isEmpty($buyer->getCity())) {
+			$this->flashMessageContainer->add('Bitte geben Sie Ihre Stadt ein.');
+			$valid = false;
+		}
+		if ($this->isEmpty($buyer->getEmail())) {
+			$this->flashMessageContainer->add('Bitte geben Sie Ihre E-Mail-Adresse ein.');
+			$valid = false;
+		}
+		if(!filter_var($buyer->getEmail(), FILTER_VALIDATE_EMAIL)) {
+			$this->flashMessageContainer->add('Bitte geben eine gültige E-Mail-Adresse ein.');
+			$valid = false;
+		}
+		if ($this->isEmpty($buyer->getTelephone())) {
+			$this->flashMessageContainer->add('Bitte geben Sie Ihre Telefonnummer ein.');
+			$valid = false;
+		}
+		return $valid;
+	}
+	
+	private function isEmpty($str) {
+		return (strlen(trim($str)) === 0);
 	}
 	
 	/**
