@@ -1,7 +1,15 @@
 ﻿Hallo Frau/Herr {order.buyer.name},
 wir danken Ihnen für Ihre Bestellung.
 
-INFOS ZUR ZAHLUNG UND ZUM VERSAND KOMMEN HIER
+<f:if condition="{paymentMode} == 'paypal'">
+<f:then>Sie haben über PayPal bezahlt. Nach der Prüfung der Bestellung werden Ihre Artikel versendet bzw. der Download zu den MP3s freigegeben.</f:then>
+<f:else>Sie haben Vorkasse gewählt. Nach Eingang der Zahlung werden Ihre Artikel versendet bzw. der Download zu den MP3s freigegeben. Bitte überweisen Sie den Gesamtbetrag auf folgendes Konto:
+Inhaber: Thomas Steinlein
+IBAN: DE21 2005 0550 1240 4770 73
+BIC: HASPDEHHXXX
+Bank: Hamburger Sparkasse
+</f:else>
+</f:if>
 
 Produkte:
 <f:for each="{order.positions}" as="position">- {position.quantity}x {position.product.title}
@@ -15,6 +23,6 @@ MwSt-befreit nach §4 UStG
 Ihre Nachricht:
 {order.comment}
 
-Für Fragen stehen wir Ihnen gern zur Verfügung!
+Für Fragen stehen wir Ihnen gern zur Verfügung! Antworten Sie dazu einfach auf diese Mail.
 
 Thomas Steinlein + Team

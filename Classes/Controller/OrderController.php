@@ -177,12 +177,13 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 					$sessionOrder = $this->getOrderFromSession();
 					$order->setPositions($sessionOrder->getPositions());
 					
-					$this->sendNotifications($order);
+					$this->sendNotifications($order, 'prepayment');
 					$this->resetOrder();
 					$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
 					$this->forward('showBasket');
 				}
 			} else {
+				// validation errors
 				// restore positions
 				$sessionOrder = $this->getOrderFromSession();
 				$order->setPositions($sessionOrder->getPositions());
@@ -203,7 +204,11 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		if ($this->request->hasArgument('paypalStatus')) {
 			$status = $this->request->getArgument('paypalStatus');
 			if ($status === 'success') {
-				// TODO
+				$order = $this->getOrderFromSession();
+				$this->sendNotifications($order, 'paypal');
+				$this->resetOrder();
+				$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
+				$this->forward('showBasket');
 			} else if ($status === 'cancel') {
 				$this->flashMessageContainer->add('Bezahlung mit PayPal abgebrochen!');
 				$this->forward('checkout');
@@ -287,24 +292,26 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * Sends notifiations to admin and customer of new order.
 	 *
 	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 * @param string $paymentMode
 	 */
-	private function sendNotifications(\TYPO3\T3minishop\Domain\Model\Order $order) {
-		$this->sendCustomerMail($order);
-		$this->sendAdminMail($order);
+	private function sendNotifications(\TYPO3\T3minishop\Domain\Model\Order $order, $paymentMode) {
+		$this->sendCustomerMail($order, $paymentMode);
+		$this->sendAdminMail($order, $paymentMode);
 	}
 	
 	/**
 	 * Sends notification to admin.
 	 *
 	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 * @param string $paymentMode
 	 */
-	private function sendAdminMail(\TYPO3\T3minishop\Domain\Model\Order $order) {
-		$email['subject']   = 'Neue Bestellung';
+	private function sendAdminMail(\TYPO3\T3minishop\Domain\Model\Order $order, $paymentMode) {
+		$email ['subject'] = 'Neue Bestellung (' . ($paymentMode === 'prepayment' ? 'Vorkasse' : 'PayPal') . ')';
 		$template = 'adminOrderMail.txt';
 		$email['toEmail']   = $this->settings['emailTo'];
 		$email['fromName']  = $order->getBuyer()->getName();
 		$email['fromEmail'] = $order->getBuyer()->getEmail();
-		$email['body'] = $this->getMailBody($order, $template);
+		$email['body'] = $this->getMailBody($order, $paymentMode, $template);
 		if ($this->settings['emailBcc']) {
 			$email['bcc'] = $this->settings['emailBcc'];
 		}
@@ -315,15 +322,16 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * Sends notification to customer.
 	 *
 	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 * @param string $paymentMode
 	 */
-	private function sendCustomerMail(\TYPO3\T3minishop\Domain\Model\Order $order) {
+	private function sendCustomerMail(\TYPO3\T3minishop\Domain\Model\Order $order, $paymentMode) {
 		$email['subject']   = 'Ihre Bestellung';
 		$template = 'customerOrderMail.txt';
 		$email['toName']   = $order->getBuyer()->getName();
 		$email['toEmail']   = $order->getBuyer()->getEmail();
 		$email['fromName']  = $this->settings['emailFromName'];
 		$email['fromEmail'] = $this->settings['emailFrom'];
-		$email['body'] = $this->getMailBody($order, $template);
+		$email['body'] = $this->getMailBody($order, $paymentMode, $template);
 		if ($this->settings['emailBcc']) {
 			$email['bcc'] = $this->settings['emailBcc'];
 		}
@@ -356,14 +364,16 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * Renders the body of the notification mail to the customer.
 	 *
 	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 * @param string $paymentMode
 	 * @param string $templateFileName name of the template
 	 * @return string the mail body
 	 */
-	private function getMailBody(\TYPO3\T3minishop\Domain\Model\Order $order, $templateFileName) {
+	private function getMailBody(\TYPO3\T3minishop\Domain\Model\Order $order, $paymentMode, $templateFileName) {
 		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Fluid_View_StandaloneView');
 		$templateFilePath = 'typo3conf/ext/t3minishop/Resources/Private/Templates/Order/'.$templateFileName;
 		$view->setTemplatePathAndFilename($templateFilePath);
 		$view->assign('order', $order);
+		$view->assign('paymentMode', $paymentMode);
 		return $view->render();
 	}
 	
