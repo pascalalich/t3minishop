@@ -168,6 +168,7 @@ class Contact extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	public function toArray() {
 		$a = array();
+		$a['uid'] = $this->getUid();
 		$a['name'] = $this->getName();
 		$a['address'] = $this->getAddress();
 		$a['city'] = $this->getCity();
@@ -176,12 +177,13 @@ class Contact extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $a;
 	}
 	
-	public function fromArray($orderArr) {
-		$this->setName($orderArr['name']);
-		$this->setAddress($orderArr['address']);
-		$this->setCity($orderArr['city']);
-		$this->setEmail($orderArr['email']);
-		$this->setTelephone($orderArr['telephone']);
+	public function fromArray($contactArr) {
+		$this->uid = $contactArr['uid'];
+		$this->setName($contactArr['name']);
+		$this->setAddress($contactArr['address']);
+		$this->setCity($contactArr['city']);
+		$this->setEmail($contactArr['email']);
+		$this->setTelephone($contactArr['telephone']);
 	}
 }
 ?>

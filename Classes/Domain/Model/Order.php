@@ -321,6 +321,7 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	
 	public function toArray() {
 		$a = array();
+		$a['uid'] = $this->getUid();
 		$a['positions'] = $this->getPositionsAsArray();
 		$a['buyer'] = $this->getBuyer()->toArray();
 		$a['comment'] = $this->getComment();
@@ -341,6 +342,7 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 	
 	public function fromArray($orderArr) {
+		$this->uid = $orderArr['uid'];
 		$positionsArr = $orderArr['positions'];
 		
 		foreach ($positionsArr as $productTitle => $positionArr) {

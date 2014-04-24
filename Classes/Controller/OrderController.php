@@ -176,6 +176,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 					// restore positions
 					$sessionOrder = $this->getOrderFromSession();
 					$order->setPositions($sessionOrder->getPositions());
+					$this->saveOrder($order);
 					
 					$this->sendNotifications($order, 'prepayment');
 					$this->resetOrder();
@@ -218,14 +219,8 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			$sessionOrder = $this->getOrderFromSession();
 		
 			$order->setPositions($sessionOrder->getPositions());
+			$this->saveOrder($order);
 			$this->setOrderToSession($order);
-			
-			$this->orderRepository->add($order);
-			$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
-			$persistenceManager->persistAll();
-			$this->logger->info("order saved", array (
-					'id' => $order->getUid()
-			));
 			
 			$this->view->assign('order', $order);
 			$orderId = $order->getUid();
@@ -251,6 +246,29 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 					'paypal vars' => $arr
 			));
 			$this->view->assign('paypal', $arr);
+		}
+	}
+	
+	/**
+	 * Saves or updates the order in the database
+	 * @param \TYPO3\T3minishop\Domain\Model\Order $order
+	 */
+	private function saveOrder(\TYPO3\T3minishop\Domain\Model\Order $order) {
+		$uid = $order->getUid();
+		if(isset($uid)) {
+			$this->orderRepository->update($order);
+			$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
+			$persistenceManager->persistAll();
+			$this->logger->info("order updated", array (
+					'uid' => $order->getUid()
+			));
+		} else {
+			$this->orderRepository->add($order);
+			$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
+			$persistenceManager->persistAll();
+			$this->logger->info("order saved", array (
+					'uid' => $order->getUid()
+			));
 		}
 	}
 	
@@ -313,7 +331,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @param string $paymentMode
 	 */
 	private function sendAdminMail(\TYPO3\T3minishop\Domain\Model\Order $order, $paymentMode) {
-		$email ['subject'] = 'Neue Bestellung (' . ($paymentMode === 'prepayment' ? 'Vorkasse' : 'PayPal') . ')';
+		$email ['subject'] = 'Neue Bestellung '.$order->getUid().' (' . ($paymentMode === 'prepayment' ? 'Vorkasse' : 'PayPal') . ')';
 		$template = 'adminOrderMail.txt';
 		$email['toEmail']   = $this->settings['emailTo'];
 		$email['fromName']  = $order->getBuyer()->getName();
@@ -332,7 +350,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @param string $paymentMode
 	 */
 	private function sendCustomerMail(\TYPO3\T3minishop\Domain\Model\Order $order, $paymentMode) {
-		$email['subject']   = 'Ihre Bestellung';
+		$email['subject']   = 'Ihre Bestellung Nr. '.$order->getUid();
 		$template = 'customerOrderMail.txt';
 		$email['toName']   = $order->getBuyer()->getName();
 		$email['toEmail']   = $order->getBuyer()->getEmail();

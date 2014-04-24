@@ -131,6 +131,7 @@ class OrderPosition extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	
 	public function toArray() {
 		$a = array();
+		$a['uid'] = $this->getUid();
 		$a['id'] = $this->getId();
 		$a['quantity'] = $this->getQuantity();
 		$a['product'] = $this->getProduct()->toArray();
@@ -138,6 +139,7 @@ class OrderPosition extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 	
 	public function fromArray($positionArr) {
+		$this->uid = $positionArr['uid'];
 		$this->setId($positionArr['id']);
 		$this->setQuantity($positionArr['quantity']);
 		$product = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\T3minishop\\Domain\\Model\\Product');

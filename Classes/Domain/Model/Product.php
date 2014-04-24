@@ -113,6 +113,7 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	public function toArray() {
 		$a = array();
+		$a['uid'] = $this->getUid();
 		$a['title'] = $this->getTitle();
 		$a['price'] = $this->getPrice();
 		$a['digital'] = $this->isDigital();
@@ -120,6 +121,7 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 	
 	public function fromArray($productArr) {
+		$this->uid = $productArr['uid'];
 		$this->setTitle($productArr['title']);
 		$this->setPrice($productArr['price']);
 		$this->setDigital($productArr['digital']);
