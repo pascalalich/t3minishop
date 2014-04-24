@@ -225,7 +225,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			$this->view->assign('order', $order);
 			$orderId = $order->getUid();
 			$this->view->assign('orderId', $orderId);
-			$this->view->assign('orderTitle', 'Einkauf bei Thomas Steinlein');
+			$this->view->assign('orderTitle', 'Thomas Steinlein Bestellung Nr. '.$orderId);
 			$this->view->assign('transactionId', "t3minishop#$orderId");
 			// defaults to test
 			$paypalURL = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
@@ -335,7 +335,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @param string $paymentMode
 	 */
 	private function sendAdminMail(\TYPO3\T3minishop\Domain\Model\Order $order, $paymentMode) {
-		$email ['subject'] = 'Neue Bestellung '.$order->getUid().' (' . ($paymentMode === 'prepayment' ? 'Vorkasse' : 'PayPal') . ')';
+		$email ['subject'] = 'Neue Bestellung Nr. '.$order->getUid().' (' . ($paymentMode === 'prepayment' ? 'Vorkasse' : 'PayPal') . ')';
 		$template = 'adminOrderMail.txt';
 		$email['toEmail']   = $this->settings['emailTo'];
 		$email['fromName']  = $order->getBuyer()->getName();
