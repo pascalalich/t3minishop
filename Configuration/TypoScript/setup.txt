@@ -22,6 +22,8 @@ plugin.tx_t3minishop {
 	    basketPid =
 	    # paypal mode (test, production)
 	    paypalMode = test
+	    # paypal account that shall receive the money
+	    paypalAccount = paypal@yourdomain.de
 	}
 }
 
