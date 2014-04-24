@@ -228,7 +228,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			));
 			
 			$this->view->assign('order', $order);
-			$orderId = 1;
+			$orderId = $order->getUid();
 			$this->view->assign('orderId', $orderId);
 			$this->view->assign('orderTitle', 'Einkauf bei Thomas Steinlein');
 			$this->view->assign('transactionId', "t3minishop#$orderId");
