@@ -6,6 +6,11 @@ plugin.tx_t3minishop {
 	}
 	persistence {
 		storagePid = {$plugin.tx_t3minishop.persistence.storagePid}
+		classes {
+			\TYPO3\T3minishop\Domain\Model\OrderPosition {
+				mapping.columns.orderref.mapOnProperty = order
+			}
+		}
 	}
 	features {
 		# uncomment the following line to enable the new Property Mapper.

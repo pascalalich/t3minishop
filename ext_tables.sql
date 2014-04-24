@@ -48,7 +48,7 @@ CREATE TABLE tx_t3minishop_domain_model_orderposition (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	order int(11) unsigned DEFAULT '0' NOT NULL,
+	orderref int(11) unsigned DEFAULT '0' NOT NULL,
 
 	quantity int(11) DEFAULT '0' NOT NULL,
 	product int(11) unsigned DEFAULT '0',
@@ -165,14 +165,5 @@ CREATE TABLE tx_t3minishop_domain_model_contact (
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
 	KEY language (l10n_parent,sys_language_uid)
-
-);
-
-#
-# Table structure for table 'tx_t3minishop_domain_model_orderposition'
-#
-CREATE TABLE tx_t3minishop_domain_model_orderposition (
-
-	order  int(11) unsigned DEFAULT '0' NOT NULL,
 
 );

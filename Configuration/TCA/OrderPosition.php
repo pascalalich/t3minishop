@@ -119,7 +119,7 @@ $TCA['tx_t3minishop_domain_model_orderposition'] = array(
 				),
 			),
 		),
-		'order' => array(
+		'orderref' => array(
 			'config' => array(
 				'type' => 'passthrough',
 			),

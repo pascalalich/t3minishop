@@ -220,6 +220,13 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			$order->setPositions($sessionOrder->getPositions());
 			$this->setOrderToSession($order);
 			
+			$this->orderRepository->add($order);
+			$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
+			$persistenceManager->persistAll();
+			$this->logger->info("order saved", array (
+					'id' => $order->getUid()
+			));
+			
 			$this->view->assign('order', $order);
 			$orderId = 1;
 			$this->view->assign('orderId', $orderId);
