@@ -233,6 +233,8 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				$paypalURL = 'https://www.paypal.com/cgi-bin/webscr';
 			}
 			$paypalReceiver = $this->settings['paypalAccount'];
+			$returnMessage = $this->settings['paypalReturnMessage'];
+			
 			
 			$successURL = $this->controllerContext->getUriBuilder()->reset()->setArguments(array('tx_t3minishop_minishop' => array('paypalStatus' => 'success')))->setCreateAbsoluteUri(true)->setUseCacheHash(false)->uriFor($actionName='payViaPaypal');
 			$cancelURL = $this->controllerContext->getUriBuilder()->reset()->setArguments(array('tx_t3minishop_minishop' => array('paypalStatus' => 'cancel')))->setCreateAbsoluteUri(true)->setUseCacheHash(false)->uriFor($actionName='payViaPaypal');
@@ -240,6 +242,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			$arr = array(
 					'url' => $paypalURL,
 					'returnUrlSuccess' => $successURL,
+					'returnMessage' => $returnMessage,
 					'returnUrlCancel' => $cancelURL,
 					'receiver' => $paypalReceiver
 			);

@@ -24,6 +24,8 @@ plugin.tx_t3minishop {
 	    paypalMode = test
 	    # paypal account that shall receive the money
 	    paypalAccount = paypal@yourdomain.de
+	    # paypal message displayed after payment to return to shop
+	    paypalReturnMessage = Zurück und Bestellung abschließen
 	}
 }
 
