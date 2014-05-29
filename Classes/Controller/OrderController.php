@@ -332,19 +332,37 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				$path = $product->getFilePath();  // something like 'fileadmin/music/01 Gospel Worship Airline (SongAusschnitt).mp3'
 				$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository'); // create instance to storage repository
 				$storage = $storageRepository->findByUid(1);    // get file storage with uid 1 (this should by default point to your fileadmin/ directory)
-				$file = $storage->getFile(substr($path, 10)); // create file object for the image (the file will be indexed if necessary)
-				$this->logger->info("found file to download", array (
-						'file' => $file->toArray()
-				));
-				$files[] = $file;
+				$pathInFileAdmin = substr($path, 10);
+				if ($this->endsWith(strtolower($pathInFileAdmin), '.mp3')) {
+					$file = $storage->getFile($pathInFileAdmin); // create file object for the image (the file will be indexed if necessary)
+					$this->logger->info("found file to download", array (
+							'file' => $file->toArray()
+					));
+					$files[] = $file;
+				} else {
+					$dir = $storage->getFolder($pathInFileAdmin);
+					foreach ($dir->getFiles() as $file) {
+						if ($this->endsWith(strtolower($file->getName()), '.mp3')) {
+							$this->logger->info("found file to download", array (
+									'file' => $file->toArray()
+							));
+							$files[] = $file;
+						}
+					}
+				}
 			}
 			
 			if (is_object($service = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceService('fileService'))) {
 				// 14 days
 				$validDuration = 14 * 24 * 60 * 60;
-				$service->createDownloadConfiguration($files, NULL, time() + $validDuration, 'ORDER-'.$order->getUid());
+				$service->createDownloadConfiguration($files, time() + $validDuration, 'ORDER-'.$order->getUid());
 			}
 		}
+	}
+	
+	// http://de2.php.net/ref.strings.php
+	private function endsWith( $str, $sub ) {
+	    return ( substr( $str, strlen( $str ) - strlen( $sub ) ) == $sub );
 	}
 	
 	/**
