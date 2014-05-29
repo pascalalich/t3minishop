@@ -319,6 +319,25 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $foundPosition;
 	}
 	
+	/**
+	 * @return array of digital products (can be emmpty)
+	 */
+	public function findDigitalProducts() {
+		$foundProducts = array();
+		
+		$this->positions->rewind();
+		while ($this->positions->valid()) {
+			$position = $this->positions->current();
+			$product = $position->getProduct();
+			if ($product->isDigital()) {
+				$foundProducts[] = $product;
+			}
+			$this->positions->next();
+		}
+		
+		return $foundProducts;
+	}
+	
 	public function toArray() {
 		$a = array();
 		$a['uid'] = $this->getUid();

@@ -58,6 +58,12 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $digital;
 
 	/**
+	 * path to file if digital product
+	 * @var \string
+	 */
+	protected $filePath;
+
+	/**
 	 * Returns the title
 	 *
 	 * @return \string $title
@@ -110,6 +116,22 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setDigital($digital) {
 		$this->digital = $digital;
 	}
+	
+	
+	/**
+	 * @return \string path to file in case of a digital product
+	 */
+	public function getFilePath() {
+		return $this->filePath;
+	}
+	
+	/**
+	 * Sets the file path for a digital product
+	 * @param \string $filePath
+	 */
+	public function setFilePath($filePath) {
+		$this->filePath = $filePath;
+	}
 
 	public function toArray() {
 		$a = array();
@@ -117,6 +139,7 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$a['title'] = $this->getTitle();
 		$a['price'] = $this->getPrice();
 		$a['digital'] = $this->isDigital();
+		$a['filePath'] = $this->getFilePath();
 		return $a;
 	}
 	
@@ -125,6 +148,7 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->setTitle($productArr['title']);
 		$this->setPrice($productArr['price']);
 		$this->setDigital($productArr['digital']);
+		$this->setFilePath($productArr['filePath']);
 	}
 }
 ?>
