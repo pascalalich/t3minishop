@@ -93,6 +93,8 @@ CREATE TABLE tx_t3minishop_domain_model_product (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	price double(11,2) DEFAULT '0.00' NOT NULL,
+	digital tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	file_path varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

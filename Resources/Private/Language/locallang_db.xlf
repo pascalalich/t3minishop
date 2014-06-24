@@ -36,6 +36,12 @@
 			<trans-unit id="tx_t3minishop_domain_model_product.price">
 				<source>Price</source>
 			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_product.digital">
+				<source>Digital product?</source>
+			</trans-unit>
+			<trans-unit id="tx_t3minishop_domain_model_product.filePath">
+				<source>Path to file or directory</source>
+			</trans-unit>
 
 			<trans-unit id="tx_t3minishop_domain_model_contact">
 				<source>Contact</source>

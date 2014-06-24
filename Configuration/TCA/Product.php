@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_t3minishop_domain_model_product'] = array(
 	'ctrl' => $TCA['tx_t3minishop_domain_model_product']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, price',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, price, digital, file_path',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, price,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, price, digital, file_path,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -110,6 +110,22 @@ $TCA['tx_t3minishop_domain_model_product'] = array(
 				'size' => 30,
 				'eval' => 'double2,required'
 			),
+		),
+		'digital' => array(
+				'exclude' => 0,
+				'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_product.digital',
+				'config' => array(
+						'type' => 'check',
+				),
+		),
+		'file_path' => array(
+				'exclude' => 0,
+				'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_product.filePath',
+				'config' => array(
+						'type' => 'input',
+						'size' => 100,
+						'eval' => 'trim'
+				),
 		),
 	),
 );
