@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_t3minishop_domain_model_product'] = array(
 	'ctrl' => $TCA['tx_t3minishop_domain_model_product']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, price, digital, file_path',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, image, description, price, digital, file_path',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, price, digital, file_path,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, image, description, price, digital, file_path,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -101,6 +101,40 @@ $TCA['tx_t3minishop_domain_model_product'] = array(
 				'size' => 30,
 				'eval' => 'trim,required'
 			),
+		),
+		'image' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3minishop_domain_model_product.image',
+			'config' => array(
+				'type' => 'group',
+				'internal_type' => 'file_reference',
+				'uploadfolder' => 'uploads/tx_t3minishop',
+				'show_thumbs' => 1,
+				'size' => 1,
+				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+				'disallowed' => '',
+			),
+		),
+		'description' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:t3minishop/Resources/Private/Language/locallang_db.xlf:tx_t3music_domain_model_product.description',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim',
+				'wizards' => array(
+					'RTE' => array(
+						'icon' => 'wizard_rte2.gif',
+						'notNewRecords'=> 1,
+						'RTEonly' => 1,
+						'script' => 'wizard_rte.php',
+						'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
+						'type' => 'script'
+					)
+				)
+			),
+			'defaultExtras' => 'richtext:rte_transform[flag=rte_enabled|mode=ts]',
 		),
 		'price' => array(
 			'exclude' => 0,

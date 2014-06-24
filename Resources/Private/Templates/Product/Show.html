@@ -1,0 +1,25 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+<div class="album-detail">
+	<h1>{product.title}</h1>
+	<div class="album-detail-header">
+		<f:if condition="{product.image}">
+			<f:image src="{product.image}" width="200" alt="{product.title}" class="album-image" />
+		</f:if>
+	
+		<p class="album-description">
+			<f:format.html>{product.description}</f:format.html>
+		</p>
+	</div>
+	<div class="album-detail-prices">
+		<p class="album-price-mp3-container">
+			<span class="label">Download-Preis:&nbsp;</span><span class="album-price-mp3"><f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{product.price}</f:format.number>&nbsp;&euro; MwSt-befreit nach §4 UStG</span>
+			<br />				
+			<f:form name="buy" method="post" controller="Order" action="addProduct" arguments="{product: product}">
+				<f:form.submit value="{product.title} kaufen" />
+			</f:form> 
+		</p>
+	</div>
+</div>
+</f:section>

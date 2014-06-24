@@ -111,6 +111,17 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @return void
 	 */
 	public function addProductAction(\TYPO3\T3minishop\Domain\Model\Product $product) {
+		$this->addProduct($product);
+		$this->redirect('show', 'product', NULL, array('product' => $product));
+	}
+	
+	/**
+	 * action addProduct
+	 * 
+	 * @param \TYPO3\T3minishop\Domain\Model\Product $product
+	 * @return void
+	 */
+	public function addProduct(\TYPO3\T3minishop\Domain\Model\Product $product) {
 		$this->logger->info("addProduct action", array (
 				'product' => $product->getTitle()
 		));

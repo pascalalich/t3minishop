@@ -1,4 +1,5 @@
 plugin.tx_t3minishop {
+	mvc.callDefaultActionIfActionCantBeResolved = 1
 	view {
 		templateRootPath = {$plugin.tx_t3minishop.view.templateRootPath}
 		partialRootPath = {$plugin.tx_t3minishop.view.partialRootPath}

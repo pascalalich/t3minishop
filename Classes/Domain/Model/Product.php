@@ -43,6 +43,20 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $title;
 
 	/**
+	 * Cover image
+	 *
+	 * @var \string
+	 */
+	protected $image;
+	
+	/**
+	 * description
+	 *
+	 * @var \string
+	 */
+	protected $description;
+	
+	/**
 	 * price
 	 *
 	 * @var \float
@@ -81,7 +95,46 @@ class Product extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setTitle($title) {
 		$this->title = $title;
 	}
+	
+	/**
+	 * Returns the image
+	 *
+	 * @return \string $image
+	 */
+	public function getImage() {
+		return $this->image;
+	}
+	
+	/**
+	 * Sets the image
+	 *
+	 * @param \string $image
+	 * @return void
+	 */
+	public function setImage($image) {
+		$this->image = $image;
+	}
+	
 
+	/**
+	 * Returns the description
+	 *
+	 * @return \string $description
+	 */
+	public function getDescription() {
+		return $this->description;
+	}
+	
+	/**
+	 * Sets the description
+	 *
+	 * @param \string $description
+	 * @return void
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
+	}
+	
 	/**
 	 * Returns the price
 	 *

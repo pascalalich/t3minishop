@@ -92,6 +92,8 @@ CREATE TABLE tx_t3minishop_domain_model_product (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
+	description text DEFAULT '' NOT NULL,
+	image text DEFAULT '' NOT NULL,
 	price double(11,2) DEFAULT '0.00' NOT NULL,
 	digital tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	file_path varchar(255) DEFAULT '' NOT NULL,
