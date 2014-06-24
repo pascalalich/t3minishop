@@ -41,6 +41,20 @@ class ProductController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @inject
 	 */
 	protected $productRepository;
+	
+	/**
+	 * action show
+	 *
+	 * @param \TYPO3\T3minishop\Domain\Model\Product $product
+	 * @return void
+	 */
+	public function showAction(\TYPO3\T3minishop\Domain\Model\Product $product = NULL) {
+		if ($product == NULL) {
+			$productId = intval($this->settings['showSingleProductUid']);
+			$product = $this->productRepository->findByUid($productId);
+		}
+		$this->view->assign('product', $product);
+	}
 
 }
 ?>

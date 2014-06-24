@@ -21,10 +21,29 @@
 										<numIndex index="0">Minishop minimal basket</numIndex>
 										<numIndex index="1">Order->showMiniBasket</numIndex>
 									</numIndex>
+									<numIndex index="2">
+										<numIndex index="0">Single product</numIndex>
+										<numIndex index="1">Product->show;Order->addProduct</numIndex>
+									</numIndex>
 								</items>
 							</config>
 						</TCEforms>
 					</switchableControllerActions>
+					<settings.showSingleProductUid>
+						<TCEforms>
+							<label>Single product</label>
+							<displayCond>FIELD:switchableControllerActions:=:Product->show;Order->addProduct</displayCond>
+							<config>
+								<type>group</type>
+								<internal_type>db</internal_type>
+								<allowed>tx_t3minishop_domain_model_product</allowed>
+								<size>1</size>
+								<maxitems>1</maxitems>
+								<minitems>0</minitems>
+								<show_thumbs>1</show_thumbs>
+							</config>
+						</TCEforms>
+					</settings.showSingleProductUid>
 				</el>
 			</ROOT>
 		</sDEF>
