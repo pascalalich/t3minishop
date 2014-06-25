@@ -353,7 +353,8 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				} else {
 					$dir = $storage->getFolder($pathInFileAdmin);
 					foreach ($dir->getFiles() as $file) {
-						if ($this->endsWith(strtolower($file->getName()), '.mp3')) {
+						$fileNameLowerCase = strtolower($file->getName());
+						if ($this->endsWith($fileNameLowerCase, '.mp3') || $this->endsWith($fileNameLowerCase, '.pdf')) {
 							$this->logger->info("found file to download", array (
 									'file' => $file->toArray()
 							));
