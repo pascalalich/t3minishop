@@ -344,7 +344,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository'); // create instance to storage repository
 				$storage = $storageRepository->findByUid(1);    // get file storage with uid 1 (this should by default point to your fileadmin/ directory)
 				$pathInFileAdmin = substr($path, 10);
-				if ($this->endsWith(strtolower($pathInFileAdmin), '.mp3')) {
+				if ($this->isDownloadabeFile($pathInFileAdmin)) {
 					$file = $storage->getFile($pathInFileAdmin); // create file object for the image (the file will be indexed if necessary)
 					$this->logger->info("found file to download", array (
 							'file' => $file->toArray()
@@ -353,8 +353,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				} else {
 					$dir = $storage->getFolder($pathInFileAdmin);
 					foreach ($dir->getFiles() as $file) {
-						$fileNameLowerCase = strtolower($file->getName());
-						if ($this->endsWith($fileNameLowerCase, '.mp3') || $this->endsWith($fileNameLowerCase, '.pdf')) {
+						if ($this->isDownloadabeFile($file->getName())) {
 							$this->logger->info("found file to download", array (
 									'file' => $file->toArray()
 							));
@@ -370,6 +369,11 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				$service->createDownloadConfiguration($files, time() + $validDuration, 'ORDER-'.$order->getUid());
 			}
 		}
+	}
+	
+	private function isDownloadabeFile($fileNameOrPath) {
+		$fileNamelowerCase = strtolower ( $file->getName () );
+		return $this->endsWith($fileNameLowerCase, '.mp3') || $this->endsWith($fileNameLowerCase, '.pdf');
 	}
 	
 	// http://de2.php.net/ref.strings.php
