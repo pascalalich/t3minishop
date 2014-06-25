@@ -372,7 +372,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	}
 	
 	private function isDownloadabeFile($fileNameOrPath) {
-		$fileNamelowerCase = strtolower ( $file->getName () );
+		$fileNameLowerCase = strtolower($fileNameOrPath);
 		return $this->endsWith($fileNameLowerCase, '.mp3') || $this->endsWith($fileNameLowerCase, '.pdf');
 	}
 	
