@@ -54,6 +54,11 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var \string
 	 */
 	protected $comment;
+
+	/**
+	 * float cd price
+	 */
+	private $cdPrice;
 	
 	/**
 	 * __construct
@@ -218,11 +223,11 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$cdCount = $this->getNumberOfCDs();
 		
 		if ($cdCount >= 6) {
-			$discount = $cdCount * (16.40 - 12.50);
+			$discount = $cdCount * ($this->cdPrice - 12.50);
 		} else if ($cdCount == 5) {
-			$discount = $cdCount * (16.40 - 13.0);
+			$discount = $cdCount * ($this->cdPrice - 13.0);
 		} else if ($cdCount == 4) {
-			$discount = $cdCount * (16.40 - 13.75);
+			$discount = $cdCount * ($this->cdPrice - 13.75);
 		}
 		
 		return $discount;
@@ -246,6 +251,7 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			$product = $position->getProduct();
 			if (!$product->isDigital() && strpos($product->getTitle(),'CD') !== false) {
 				$number += $position->getQuantity();
+				$this->cdPrice = $product->getPrice();
 			}
 			$this->positions->next();
 		}
