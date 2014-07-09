@@ -58,7 +58,7 @@ class Order extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * float cd price
 	 */
-	private $cdPrice;
+	// private $cdPrice;
 	
 	/**
 	 * __construct
