@@ -5,7 +5,7 @@ wir danken Ihnen für Ihre Bestellung.
 <f:then>Sie haben über PayPal bezahlt. Nach der Prüfung der Bestellung werden Ihre Artikel versendet bzw. der Download zu den MP3s freigegeben.</f:then>
 <f:else>Sie haben Vorkasse gewählt. Nach Eingang der Zahlung werden Ihre Artikel versendet bzw. der Download zu den MP3s freigegeben. Bitte überweisen Sie den Gesamtbetrag auf folgendes Konto:
 Inhaber: Thomas Steinlein
-IBAN: DE21 2005 0550 1240 4770 73
+IBAN: DE03 2005 0550 1240 4598 40
 BIC: HASPDEHHXXX
 Bank: Hamburger Sparkasse
 </f:else>
