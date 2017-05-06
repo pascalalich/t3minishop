@@ -192,7 +192,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 					$this->createDownloadConfigIfRequired($order);
 					$this->sendNotifications($order, 'prepayment');
 					$this->resetOrder();
-					$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
+					$this->addFlashMessage('Vielen Dank für Ihre Bestellung!');
 					$this->forward('showBasket');
 				}
 			} else {
@@ -221,10 +221,10 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				$this->createDownloadConfigIfRequired($order);
 				$this->sendNotifications($order, 'paypal');
 				$this->resetOrder();
-				$this->flashMessageContainer->add('Vielen Dank für Ihre Bestellung!');
+				$this->addFlashMessage('Vielen Dank für Ihre Bestellung!');
 				$this->forward('showBasket');
 			} else if ($status === 'cancel') {
-				$this->flashMessageContainer->add('Bezahlung mit PayPal abgebrochen!');
+				$this->addFlashMessage('Bezahlung mit PayPal abgebrochen!');
 				$this->forward('checkout');
 			}
 		} else {
@@ -300,27 +300,27 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	private function validateBuyer(\TYPO3\T3minishop\Domain\Model\Contact $buyer) {
 		$valid = true;
 		if ($this->isEmpty($buyer->getName())) {
-			$this->flashMessageContainer->add('Bitte geben Sie Ihren Namen ein.');
+			$this->addErrorMesssage('Bitte geben Sie Ihren Namen ein.');
 			$valid = false;
 		}
 		if ($this->isEmpty($buyer->getAddress())) {
-			$this->flashMessageContainer->add('Bitte geben Sie Ihre Straße ein.');
+			$this->addErrorMesssage('Bitte geben Sie Ihre Straße ein.');
 			$valid = false;
 		}
 		if ($this->isEmpty($buyer->getCity())) {
-			$this->flashMessageContainer->add('Bitte geben Sie Ihre Stadt ein.');
+			$this->addErrorMesssage('Bitte geben Sie Ihre Stadt ein.');
 			$valid = false;
 		}
 		if ($this->isEmpty($buyer->getEmail())) {
-			$this->flashMessageContainer->add('Bitte geben Sie Ihre E-Mail-Adresse ein.');
+			$this->addErrorMesssage('Bitte geben Sie Ihre E-Mail-Adresse ein.');
 			$valid = false;
 		}
 		if(!filter_var($buyer->getEmail(), FILTER_VALIDATE_EMAIL)) {
-			$this->flashMessageContainer->add('Bitte geben eine gültige E-Mail-Adresse ein.');
+			$this->addErrorMesssage('Bitte geben eine gültige E-Mail-Adresse ein.');
 			$valid = false;
 		}
 		if ($this->isEmpty($buyer->getTelephone())) {
-			$this->flashMessageContainer->add('Bitte geben Sie Ihre Telefonnummer ein.');
+			$this->addErrorMesssage('Bitte geben Sie Ihre Telefonnummer ein.');
 			$valid = false;
 		}
 		return $valid;
@@ -492,5 +492,14 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		));
 		$GLOBALS['TSFE']->fe_user->setKey('ses', 'TYPO3\\T3minishop\\Domain\\Model\\Order', $sessionOrder);
 	}
+
+	private function addErrorMesssage($text) {
+        $this->addFlashMessage(
+            $text,
+            $messageTitle = '',
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR,
+            $storeInSession = TRUE
+        );
+    }
 }
 ?>
