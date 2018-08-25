@@ -179,7 +179,7 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		if ($this->request->hasArgument('showBasket')) {
 			$this->forward('showBasket');
 		} else {
-			if ($this->validateBuyer($order->getBuyer())) {
+			if ($this->validateBuyer($order->getBuyer()) && $this->validatePrivacyStatement()) {
 				if ($this->request->hasArgument('payViaPaypal')) {
 					$this->forward('payViaPaypal', NULL, NULL, array('order' => $order));
 					
@@ -325,6 +325,15 @@ class OrderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		}
 		return $valid;
 	}
+
+	private function validatePrivacyStatement() {
+        $valid = true;
+        if (!$this->request->hasArgument('privacyStatementAcknowledged') || $this->request->getArgument('privacyStatementAcknowledged') !== '1') {
+            $this->addErrorMesssage('Bitte bestätigen Sie die Datenschutzerklärung.');
+            $valid = false;
+        }
+        return $valid;
+    }
 	
 	private function isEmpty($str) {
 		return (strlen(trim($str)) === 0);
